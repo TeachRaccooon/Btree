@@ -305,6 +305,7 @@ unsigned int b_tree_insert(void *b_tree, void *key, void *record)
 {
    int lba = b_tree_find(b_tree, key);
 
+   /*
    B_Tree* mytree = (B_Tree*) b_tree;
    
    if(lba) 
@@ -315,7 +316,7 @@ unsigned int b_tree_insert(void *b_tree, void *key, void *record)
       // Do we need to update the btree itself now?
       return lba;
    }
-   /*
+   
    else
    {
       // We need to find an appropriate place for the record to be inserted
