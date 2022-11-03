@@ -324,7 +324,7 @@ unsigned int b_tree_insert(void *b_tree, void *key, void *record)
    {
       // We need to find an appropriate place for the record to be inserted
       // suppose we've found the external node where this key belongs 
-      Tree_Node *node_found = mytree->tmp_e;
+      Tree_Node *node_found = mytree->root;
 
       // Search for a place in the found node to insert the key
       int i = 0;
