@@ -311,10 +311,10 @@ unsigned int b_tree_insert(void *b_tree, void *key, void *record)
    if(0) 
    {
       // key found, p, place record into val
-      jdisk_write(((B_Tree*) b_tree)->disk, lba, record);
+      jdisk_write(((B_Tree*) b_tree)->disk, 1, record);
 
       // Do we need to update the btree itself now?
-      return lba;
+      return 0;
    }
    
    else
