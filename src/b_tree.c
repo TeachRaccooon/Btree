@@ -238,6 +238,13 @@ unsigned int b_tree_find(void *b_tree, void *key)
                // So we're jumping to the left child and then skipping the key comparison in
                // any further alg iterations, grabbing the rightmost child right away
                found_key = 1;
+
+               // If we're at an external node, then we're done lol
+               if(!(curr_node->internal))
+               {
+                  return curr_node->lbas[i];
+               }
+
                // Need to actually read the child node from the disk
                read_node(mytree,  curr_node->children[i], curr_node->lbas[i], curr_node);
                curr_node = curr_node->children[i];
@@ -324,7 +331,7 @@ unsigned int b_tree_insert(void *b_tree, void *key, void *record)
    {
       // We need to find an appropriate place for the record to be inserted
       // suppose we've found the external node where this key belongs 
-      Tree_Node *node_found = mytree->root;
+      Tree_Node *node_found = mytree->tmp_e;
 
       // Search for a place in the found node to insert the key
       int i = 0;
