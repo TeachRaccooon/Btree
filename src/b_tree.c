@@ -309,7 +309,6 @@ unsigned int b_tree_insert(void *b_tree, void *key, void *record)
    printf("we're in insert\n");
    int lba = b_tree_find(b_tree, key);
 
-   /*
    B_Tree* mytree = (B_Tree*) b_tree;
    
    if(lba) 
@@ -464,7 +463,6 @@ unsigned int b_tree_insert(void *b_tree, void *key, void *record)
 
       return val_lba;
    }
-   */
    return -1;
 }
 
