@@ -306,6 +306,7 @@ void shift_node_dat(Tree_Node *node, int i)
 
 unsigned int b_tree_insert(void *b_tree, void *key, void *record)
 {
+   printf("we're in insert\n");
    int lba = b_tree_find(b_tree, key);
 
    /*
