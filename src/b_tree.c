@@ -203,7 +203,7 @@ unsigned int b_tree_find(void *b_tree, void *key)
 
 
    printf("we're in find\n");
-   return 0;
+   //return 0;
 
    // Iterate while we're on internal node. Otherswise, return 0
    while(1)
