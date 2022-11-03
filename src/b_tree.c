@@ -325,9 +325,9 @@ unsigned int b_tree_insert(void *b_tree, void *key, void *record)
       int i = 0;
       while(memcmp(key, node_found->keys[i], mytree->key_size) > 0)
       {
+         break;
          ++i;
       }
-      fprintf(stderr, "GOT HERE");
       // shift all keys to the right by one 
       // in the same loop, shift all the lbas and children
 
