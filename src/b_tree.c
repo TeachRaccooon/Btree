@@ -193,7 +193,6 @@ If key is not in the tree, returns 0.
 */
 unsigned int b_tree_find(void *b_tree, void *key)
 {
-
    B_Tree* mytree = ((B_Tree *)b_tree);
 
    // The node that we keep track of at any iteration
@@ -202,6 +201,10 @@ unsigned int b_tree_find(void *b_tree, void *key)
    // Indicator stating whether the key has been identified
    int found_key = 0;
 
+
+   printf("we're in find\n")
+   return 0;
+   
    // Iterate while we're on internal node. Otherswise, return 0
    while(1)
    {
@@ -303,25 +306,25 @@ void shift_node_dat(Tree_Node *node, int i)
 
 unsigned int b_tree_insert(void *b_tree, void *key, void *record)
 {
+   int lba = b_tree_find(b_tree, key);
 
-   //int lba = b_tree_find(b_tree, key);
-
+   /*
    B_Tree* mytree = (B_Tree*) b_tree;
    
-   if(0) 
+   if(lba) 
    {
       // key found, p, place record into val
-      jdisk_write(((B_Tree*) b_tree)->disk, 1, record);
+      jdisk_write(((B_Tree*) b_tree)->disk, lba, record);
 
       // Do we need to update the btree itself now?
-      return 0;
+      return lba;
    }
    
    else
    {
       // We need to find an appropriate place for the record to be inserted
       // suppose we've found the external node where this key belongs 
-      Tree_Node *node_found = mytree->root;
+      Tree_Node *node_found = mytree->tmp_e;
 
       // Search for a place in the found node to insert the key
       int i = 0;
@@ -460,7 +463,7 @@ unsigned int b_tree_insert(void *b_tree, void *key, void *record)
 
       return val_lba;
    }
-   
+   */
    return -1;
 }
 
