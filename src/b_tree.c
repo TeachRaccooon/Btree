@@ -367,7 +367,7 @@ unsigned int b_tree_insert(void *b_tree, void *key, void *record)
          for(; i < (int) (node_found->nkeys); ++i, ++j)
          {
             memcpy(node_found->keys[i], newnode->keys[j], sizeof(char*));
-            memcpy(node_found->lbas[i], newnode->lbas[j], sizeof(unsigned int));
+            newnode->lbas[j] = node_found->lbas[i];
             memcpy(node_found->children[i], newnode->children[j], sizeof(Tree_Node*));
 
             // we also need to update the old node here
@@ -377,7 +377,7 @@ unsigned int b_tree_insert(void *b_tree, void *key, void *record)
             node_found->children[i] = NULL;
          }
          // one additional child and LBA
-         memcpy(node_found->lbas[i], newnode->lbas[j], sizeof(unsigned int));
+         newnode->lbas[j] = node_found->lbas[i];
          memcpy(node_found->children[i], newnode->children[j], sizeof(Tree_Node*));
 
          newnode->nkeys = j;
