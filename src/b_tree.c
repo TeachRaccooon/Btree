@@ -330,6 +330,8 @@ unsigned int b_tree_insert(void *b_tree, void *key, void *record)
       fprintf(stderr, "GOT HERE");
       // shift all keys to the right by one 
       // in the same loop, shift all the lbas and children
+
+/*
       shift_node_dat(node_found, i);
 
       // lba of the val
@@ -345,6 +347,8 @@ unsigned int b_tree_insert(void *b_tree, void *key, void *record)
       // change the first free block and free_list on the tree
       mytree->free_list;
       mytree->first_free_block = (mytree->free_list)->lba;
+*/
+
       /*
       // check if we've exceeded maxkey
       if((int)(node_found->nkeys) > mytree->keys_per_block)
@@ -454,10 +458,10 @@ unsigned int b_tree_insert(void *b_tree, void *key, void *record)
       }
       */
       // write node_found and btree
-      write_node(mytree, node_found);
-      write_tree(mytree);
+      //write_node(mytree, node_found);
+      //write_tree(mytree);
 
-      return val_lba;
+      //return val_lba;
    }
    return -1;
 }
