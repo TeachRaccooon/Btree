@@ -332,7 +332,7 @@ unsigned int b_tree_insert(void *b_tree, void *key, void *record)
       // We need to find an appropriate place for the record to be inserted
       // suppose we've found the external node where this key belongs 
       Tree_Node *node_found = mytree->root;
-/*
+
       // Search for a place in the found node to insert the key
       int i = 0;
       while(memcmp(key, node_found->keys[i], mytree->key_size) > 0)
@@ -341,7 +341,7 @@ unsigned int b_tree_insert(void *b_tree, void *key, void *record)
       }
       // shift all keys to the right by one 
       // in the same loop, shift all the lbas and children
-
+/*
       shift_node_dat(node_found, i);
 
       // lba of the val
