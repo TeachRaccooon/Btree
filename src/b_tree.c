@@ -209,6 +209,7 @@ unsigned int b_tree_find(void *b_tree, void *key)
    // Indicator stating whether the key has been identified
    int found_key = 0;
 
+   printf("In Find\n");
    // Iterate while we're on internal node. Otherswise, return 0
    while(1)
    {
@@ -324,6 +325,7 @@ void shift_node_dat(Tree_Node *node, int i)
 
 unsigned int b_tree_insert(void *b_tree, void *key, void *record)
 {
+   printf("In Insert\n");
    int lba = b_tree_find(b_tree, key);
 
    B_Tree* mytree = (B_Tree*) b_tree;
