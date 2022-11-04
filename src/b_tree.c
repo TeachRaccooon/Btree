@@ -324,7 +324,6 @@ void shift_node_dat(Tree_Node *node, int i)
 
 unsigned int b_tree_insert(void *b_tree, void *key, void *record)
 {
-   printf("we're in insert\n");
    int lba = b_tree_find(b_tree, key);
 
    B_Tree* mytree = (B_Tree*) b_tree;
@@ -346,10 +345,8 @@ unsigned int b_tree_insert(void *b_tree, void *key, void *record)
 
       // Search for a place in the found node to insert the key
       int i = 0;
-      printf("KEY IS %d\n", *(int*) key);
       while(memcmp(key, node_found->keys[i], mytree->key_size) > 0 && (int) *(node_found->keys[i]) != 0)
       {
-         printf("Key at %d, %d\n", i, (int) *(node_found->keys[i]));
          ++i;
       }
       // shift all keys to the right by one 
@@ -359,6 +356,9 @@ unsigned int b_tree_insert(void *b_tree, void *key, void *record)
 
       // lba of the val
       unsigned long val_lba = mytree->first_free_block;
+
+      // modify the tree
+      mytree->first_free_block = mytree->first_free_block + 1;
 
       // place the new data at i
       node_found->keys[i] = key;
@@ -473,9 +473,12 @@ unsigned int b_tree_insert(void *b_tree, void *key, void *record)
          write_node(mytree, node_found->parent);
          write_node(mytree, newnode);
       }
+      
       // write node_found and btree
       write_node(mytree, node_found);
       write_tree(mytree);
+      // write data
+      jdisk_write(mytree->disk, node_found->lbas[i], record);
 
       return val_lba;
    }
