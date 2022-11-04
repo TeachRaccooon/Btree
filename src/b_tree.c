@@ -363,11 +363,11 @@ unsigned int b_tree_insert(void *b_tree, void *key, void *record)
       node_found->children[i] = record;
 
       node_found->nkeys = (unsigned char) ((int) (node_found ->nkeys) + 1);
-
+/*
       // change the first free block and free_list on the tree
       mytree->free_list;
       mytree->first_free_block = (mytree->free_list)->lba;
-/*
+
       // check if we've exceeded maxkey
       if((int)(node_found->nkeys) > mytree->keys_per_block)
       {
