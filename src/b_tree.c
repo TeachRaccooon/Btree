@@ -155,12 +155,12 @@ void *b_tree_create(char *filename, long size, int key_size)
    root->internal = 0;
    root->lba = 1;
    // just allocate some space for these two
-   root->keys = malloc((mytree->keys_per_block + 1) * sizeof(char*));
+   root->keys = calloc((mytree->keys_per_block + 1) * sizeof(char*), 0);
    for(int i = 0; i < mytree->keys_per_block + 1; ++i)
    {
-      root->keys[i] = malloc(mytree->key_size);
+      root->keys[i] = calloc(mytree->key_size, 0);
    }
-   root->lbas = malloc((mytree->keys_per_block + 2) * sizeof(unsigned int));
+   root->lbas = calloc((mytree->keys_per_block + 2) * sizeof(unsigned int), 0);
    root->children = malloc((mytree->keys_per_block + 2) * sizeof(Tree_Node*));
    for(int i = 0; i < mytree->keys_per_block + 2; ++i)
    {
