@@ -219,6 +219,13 @@ unsigned int b_tree_find(void *b_tree, void *key)
    // Iterate while we're on internal node. Otherswise, return 0
    while(1)
    {
+      if(curr_node->nkeys = 0 && found_key == 0)
+      {
+         // Likely an empty root type situation, nothing was found too
+
+         return 0;
+      }
+
       if(found_key)
       {
          // Now we just want to get to the external node asap
@@ -230,17 +237,16 @@ unsigned int b_tree_find(void *b_tree, void *key)
          // if we're at an external node, grab the val and return
          if(!(curr_node->internal))
          {
+            mytree->tmp_e = curr_node;
             return curr_node->lba;
          }
       }
       else
       {
-         printf("HERE %d\n", 1);
          // Iterate through the keys in the node
          for(int i = 0; i < (int)(curr_node->nkeys); ++i)
          {
             int compare = memcmp(key, curr_node->keys[i], mytree->key_size);
-            printf("COMPARE %d\n", compare);
 
             // Check if the keys are matching
             if(!compare)
