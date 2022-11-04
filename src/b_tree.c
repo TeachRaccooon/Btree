@@ -210,7 +210,8 @@ unsigned int b_tree_find(void *b_tree, void *key)
    int found_key = 0;
 
 
-   printf("%d", (int) curr_node->internal);
+   printf("%d\n", (int) curr_node->internal);
+   printf("%d\n", (int)(curr_node->nkeys) - 1);
 
    printf("we're in find\n");
    return 0;
