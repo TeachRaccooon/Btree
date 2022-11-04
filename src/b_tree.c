@@ -350,12 +350,12 @@ unsigned int b_tree_insert(void *b_tree, void *key, void *record)
       }
       // shift all keys to the right by one 
       // in the same loop, shift all the lbas and children
-/*
+
       shift_node_dat(node_found, i);
 
       // lba of the val
       unsigned long val_lba = mytree->first_free_block;
-
+/*
       // place the new data at i
       node_found->keys[i] = key;
       node_found->lbas[i] = val_lba;
@@ -412,7 +412,7 @@ unsigned int b_tree_insert(void *b_tree, void *key, void *record)
          {
             // find where the midkey key belongs
             int i = 0;
-            while(memcmp(node_found->keys[midkey], node_found->parent->keys[i], mytree->key_size) > 0)
+            while(memcmp(node_found->keys[midkey], node_found->parent->keys[i], mytree->key_size) > 0 && node_found->parent->keys[i] != 0)
             {
                ++i;
             }
