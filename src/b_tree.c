@@ -475,8 +475,6 @@ unsigned int b_tree_insert(void *b_tree, void *key, void *record)
       write_tree(mytree);
 
       return val_lba;
-*/
-      return 0;
    }
    return -1;
 }
