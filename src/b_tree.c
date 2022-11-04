@@ -239,7 +239,8 @@ unsigned int b_tree_find(void *b_tree, void *key)
          for(int i = 0; i < (int)(curr_node->nkeys); ++i)
          {
             int compare = memcmp(key, curr_node->keys[i], mytree->key_size);
-         
+            printf("COMPARE %d\n", compare);
+
             // Check if the keys are matching
             if(!compare)
             {
