@@ -343,7 +343,7 @@ unsigned int b_tree_insert(void *b_tree, void *key, void *record)
 
       // Search for a place in the found node to insert the key
       int i = 0;
-      while(memcmp(key, node_found->keys[i], mytree->key_size) > 0)
+      while(memcmp(key, node_found->keys[i], mytree->key_size) > 0 && node_found->keys[i] != 0)
       {
          fprintf(stderr, "%d", i);
          ++i;
