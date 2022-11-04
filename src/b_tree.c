@@ -209,9 +209,8 @@ unsigned int b_tree_find(void *b_tree, void *key)
    // Indicator stating whether the key has been identified
    int found_key = 0;
 
-
    printf("we're in find\n");
-   return 0;
+   //return 0;
 
    // Iterate while we're on internal node. Otherswise, return 0
    while(1)
