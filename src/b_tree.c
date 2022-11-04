@@ -279,7 +279,7 @@ unsigned int b_tree_find(void *b_tree, void *key)
                curr_node = curr_node->children[i];
                break;
             }
-            else if(compare > 0 && i == (int)(curr_node->nkeys) - 1)
+            else if(compare > 0 && i == mytree->keys_per_block)
             {
                // the default situation here would be to just go to the next key
                // But if we're at the last key, jump to the rightmost child 
