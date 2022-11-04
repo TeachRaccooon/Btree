@@ -202,13 +202,12 @@ unsigned int b_tree_find(void *b_tree, void *key)
    int found_key = 0;
 
 
-   //printf("we're in find\n");
-   //return 0;
+   printf("we're in find\n");
+   return 0;
 
    // Iterate while we're on internal node. Otherswise, return 0
    while(1)
    {
-      printf("we're in find\n");
       if(found_key)
       {
          // Now we just want to get to the external node asap
@@ -342,7 +341,7 @@ unsigned int b_tree_insert(void *b_tree, void *key, void *record)
       }
       // shift all keys to the right by one 
       // in the same loop, shift all the lbas and children
-
+/*
       shift_node_dat(node_found, i);
 
       // lba of the val
@@ -470,6 +469,8 @@ unsigned int b_tree_insert(void *b_tree, void *key, void *record)
       write_tree(mytree);
 
       return val_lba;
+*/
+      return 0;
    }
    return -1;
 }
