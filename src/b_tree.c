@@ -209,13 +209,6 @@ unsigned int b_tree_find(void *b_tree, void *key)
    // Indicator stating whether the key has been identified
    int found_key = 0;
 
-
-   printf("%d\n", (int) curr_node->internal);
-   printf("%d\n", (int)(curr_node->nkeys) - 1);
-
-   printf("we're in find\n");
-   //return 0;
-
    // Iterate while we're on internal node. Otherswise, return 0
    while(1)
    {
@@ -350,7 +343,7 @@ unsigned int b_tree_insert(void *b_tree, void *key, void *record)
    {
       // We need to find an appropriate place for the record to be inserted
       // suppose we've found the external node where this key belongs 
-      Tree_Node *node_found = mytree->root;
+      Tree_Node *node_found = mytree->tmp_e;
 
       // Search for a place in the found node to insert the key
       int i = 0;
