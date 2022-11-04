@@ -356,7 +356,7 @@ unsigned int b_tree_insert(void *b_tree, void *key, void *record)
 
       // lba of the val
       unsigned long val_lba = mytree->first_free_block;
-/*
+
       // place the new data at i
       node_found->keys[i] = key;
       node_found->lbas[i] = val_lba;
@@ -367,7 +367,7 @@ unsigned int b_tree_insert(void *b_tree, void *key, void *record)
       // change the first free block and free_list on the tree
       mytree->free_list;
       mytree->first_free_block = (mytree->free_list)->lba;
-
+/*
       // check if we've exceeded maxkey
       if((int)(node_found->nkeys) > mytree->keys_per_block)
       {
