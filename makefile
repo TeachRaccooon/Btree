@@ -14,6 +14,7 @@ clean:
 LIBS = /home/jplank/lib/LINUX-X86_64/libfdr.a
 INCLUDE = -I/home/jplank/include -Iinclude
 
+CC = cc -g
 # ---------------
 # Object files
 
