@@ -67,7 +67,7 @@ void write_node(B_Tree *btree, Tree_Node *node)
    }
 
    // How many bytes do LBA's occupy in a node (remember about an additional one)
-   unsigned int lba_space_sz = ((int) (node->nkeys) + 1) * sizeof(unsigned int);
+   unsigned int lba_space_sz = ((int) (btree->keys_per_block) + 1) * sizeof(unsigned int);
    // Copy over all aba's
    memcpy(buf + 1024 - lba_space_sz, node->lbas, lba_space_sz);
 
@@ -156,14 +156,22 @@ void *b_tree_create(char *filename, long size, int key_size)
    root->lba = 1;
    // just allocate some space for these two
    root->keys = malloc((mytree->keys_per_block + 1) * sizeof(char*));
+   for(int i = 0; i < mytree->keys_per_block + 1; ++i)
+   {
+      root->keys[i] = malloc(mytree->key_size);
+   }
    root->lbas = malloc((mytree->keys_per_block + 2) * sizeof(unsigned int));
    root->children = malloc((mytree->keys_per_block + 2) * sizeof(Tree_Node*));
+   for(int i = 0; i < mytree->keys_per_block + 2; ++i)
+   {
+      root->children[i] = malloc(sizeof(Tree_Node));
+   }
    root->parent = NULL;
    // What should i do here?
    //root->ptr;                        /* Free list link */
 
    mytree->root = root;
-   mytree->free_list = root;         /* Free list of nodes - i'm guessing that this should point to the root? */
+   //mytree->free_list = root;         /* Free list of nodes - i'm guessing that this should point to the root? */
 
    // Actually write stuff on a disk
    write_tree(mytree);
