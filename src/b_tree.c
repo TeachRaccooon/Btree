@@ -235,6 +235,7 @@ unsigned int b_tree_find(void *b_tree, void *key)
       }
       else
       {
+         printf("HERE %d\n", 1);
          // Iterate through the keys in the node
          for(int i = 0; i < (int)(curr_node->nkeys); ++i)
          {
