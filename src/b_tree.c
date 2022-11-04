@@ -219,7 +219,7 @@ unsigned int b_tree_find(void *b_tree, void *key)
    // Iterate while we're on internal node. Otherswise, return 0
    while(1)
    {
-      if(curr_node->nkeys = 0 && found_key == 0)
+      if(curr_node->nkeys == 0 && found_key == 0)
       {
          // Likely an empty root type situation, nothing was found too
 
