@@ -202,12 +202,13 @@ unsigned int b_tree_find(void *b_tree, void *key)
    int found_key = 0;
 
 
-   printf("we're in find\n");
-   return 0;
+   //printf("we're in find\n");
+   //return 0;
 
    // Iterate while we're on internal node. Otherswise, return 0
    while(1)
    {
+      printf("we're in find\n");
       if(found_key)
       {
          // Now we just want to get to the external node asap
