@@ -351,12 +351,12 @@ unsigned int b_tree_insert(void *b_tree, void *key, void *record)
       }
       // shift all keys to the right by one 
       // in the same loop, shift all the lbas and children
-/*
+
       shift_node_dat(node_found, i);
 
       // lba of the val
       unsigned long val_lba = mytree->first_free_block;
-
+/*
       // place the new data at i
       node_found->keys[i] = key;
       node_found->lbas[i] = val_lba;
