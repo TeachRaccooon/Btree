@@ -230,6 +230,7 @@ unsigned int b_tree_find(void *b_tree, void *key)
    // Iterate while we're on internal node. Otherswise, return 0
    while(1)
    {
+      printf("Looping\n");
       if(curr_node->nkeys == 0 && found_key == 0)
       {
          printf("Early termination\n");
@@ -250,7 +251,7 @@ unsigned int b_tree_find(void *b_tree, void *key)
          // Now we just want to get to the external node asap
          // So grab the rightmost child
          // Need to actually read the child node from the disk
-         //printf("Key found\n");
+         printf("KEY FOUND PREVIOSLY -- LOOKING FOR VAL\n");
          //printf("nkeys in the node %d\n", (int)(curr_node->nkeys));
          // Need to make sure a child node exists
          //if(!curr_node->children[(int)(curr_node->nkeys)])
@@ -283,7 +284,7 @@ unsigned int b_tree_find(void *b_tree, void *key)
                {
                   return curr_node->lbas[i];
                }
-               printf("Key found now\n");
+               printf("JUST FUND THE KEY-JUMPING TO THE LEFT\n");
                printf("nkeys in the node %d\n", (int)(curr_node->nkeys));
                printf("Next lba is: %d\n", curr_node->lbas[i]);
 
