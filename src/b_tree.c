@@ -630,7 +630,7 @@ void print_node(B_Tree *b_tree, Tree_Node *node)
 
 void b_tree_print_tree(B_Tree *tree)
 {
-   printf("/-------------------------PRINT BEGIN--------------------/");
+   printf("/-------------------------PRINT BEGIN--------------------/\n");
    printf("b_tree information\n");
    printf("key size: %u\n", tree->key_size);
    printf("root lba: %u\n", tree->root_lba);
@@ -647,7 +647,7 @@ void b_tree_print_tree(B_Tree *tree)
    }
 
    print_node(tree, tree->root);
-   printf("/-------------------------PRINT END--------------------/");
+   printf("/-------------------------PRINT END--------------------/\n");
    return;
 }
 
