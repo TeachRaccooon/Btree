@@ -172,7 +172,7 @@ void *b_tree_create(char *filename, long size, int key_size)
    root->children = malloc((mytree->keys_per_block + 2) * sizeof(Tree_Node*));
    for(int i = 0; i < mytree->keys_per_block + 2; ++i)
    {
-      //root->children[i] = malloc(sizeof(Tree_Node));
+      root->children[i] = malloc(sizeof(Tree_Node));
    }
    root->parent = NULL;
    // What should i do here?
@@ -243,11 +243,11 @@ unsigned int b_tree_find(void *b_tree, void *key)
          printf("Key found\n");
 
          // Need to make sure a child node exists
-         if(!curr_node->children[(int)(curr_node->nkeys)])
-         {
+         //if(!curr_node->children[(int)(curr_node->nkeys)])
+         //{
             curr_node->children[(int)(curr_node->nkeys)] = malloc(sizeof(Tree_Node));
             read_node(mytree,  curr_node->children[(int)(curr_node->nkeys)], curr_node->lbas[(int)(curr_node->nkeys)], curr_node);
-         }
+         //}
 
          curr_node = curr_node->children[ (int)(curr_node->nkeys)];
       }
@@ -277,12 +277,12 @@ unsigned int b_tree_find(void *b_tree, void *key)
 
 
                // Need to make sure a child node exists
-               if(!curr_node->children[i])
-               {
+               //if(!curr_node->children[i])
+               //{
                   curr_node->children[i] = malloc(sizeof(Tree_Node));
                   // Need to actually read the child node from the disk
                   read_node(mytree,  curr_node->children[i], curr_node->lbas[i], curr_node);
-               }
+               //}
                curr_node = curr_node->children[i];
                break;
             }
@@ -300,12 +300,12 @@ unsigned int b_tree_find(void *b_tree, void *key)
                }
                printf("Key less\n");
                // Need to make sure a child node exists
-               if(!curr_node->children[i])
-               {
+               //if(!curr_node->children[i])
+               //{
                   curr_node->children[i] = malloc(sizeof(Tree_Node));
                   // Need to actually read the child node from the disk
                   read_node(mytree,  curr_node->children[i], curr_node->lbas[i], curr_node);
-               }
+               //}
                curr_node = curr_node->children[i];
                break;
             }
@@ -323,12 +323,12 @@ unsigned int b_tree_find(void *b_tree, void *key)
                }
                printf("Key greater jump\n");
                // Need to make sure a child node exists
-               if(!curr_node->children[i + 1])
-               {
+               //if(!curr_node->children[i + 1])
+               //{
                   curr_node->children[i + 1] = malloc(sizeof(Tree_Node));
                   // Need to actually read the child node from the disk
                   read_node(mytree,  curr_node->children[i + 1], curr_node->lbas[i + 1], curr_node);
-               }
+               //}
                curr_node = curr_node->children[i + 1];
                break;
             }
