@@ -231,7 +231,7 @@ unsigned int b_tree_find(void *b_tree, void *key)
    // Iterate while we're on internal node. Otherswise, return 0
    while(1)
    {
-      printf("Looping\n");
+      //printf("Looping\n");
       if(curr_node->nkeys == 0 && found_key == 0)
       {
          printf("Early termination\n");
