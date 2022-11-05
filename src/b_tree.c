@@ -193,6 +193,7 @@ void *b_tree_create(char *filename, long size, int key_size)
 
 void *b_tree_attach(char *filename)
 {
+   printf("INSIDE ATTACH\n");
    B_Tree *mytree = malloc(sizeof(B_Tree));
    // Attach some file to an empty disk, associated with a newly-created tree
    mytree->disk = jdisk_attach(filename);
