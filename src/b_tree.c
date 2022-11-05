@@ -224,18 +224,19 @@ unsigned int b_tree_find(void *b_tree, void *key)
 
       if(found_key)
       {
+
+         // if we're at an external node, grab the val and return
+         if(!(curr_node->internal))
+         {
+            return curr_node->lbas[(int)(curr_node->nkeys)];
+         }
+
          // Now we just want to get to the external node asap
          // So grab the rightmost child
          // Need to actually read the child node from the disk
          printf("Key found\n");
          read_node(mytree,  curr_node->children[(int)(curr_node->nkeys)], curr_node->lbas[(int)(curr_node->nkeys)], curr_node);
          curr_node = curr_node->children[ (int)(curr_node->nkeys)];
-
-         // if we're at an external node, grab the val and return
-         if(!(curr_node->internal))
-         {
-            return curr_node->lba;
-         }
       }
       else
       {
