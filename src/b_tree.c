@@ -93,6 +93,7 @@ void read_node(B_Tree *btree, Tree_Node *node, unsigned int lba, Tree_Node* pare
 
    // Pretty much doing an inverse of the above function, filling an empty node with data
    node->internal = buf[0];
+   printf("First bit inside read_node %d\n", node->internal);
    node->nkeys    = buf[1];
    node->lba  = lba;
    // Allocate space for keys
