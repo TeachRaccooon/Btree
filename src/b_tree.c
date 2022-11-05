@@ -378,6 +378,7 @@ unsigned int b_tree_insert(void *b_tree, void *key, void *record)
  
    B_Tree* mytree = (B_Tree*) b_tree;
 
+   printf("PRINTING TREE BEFORE INSERT\n");
    b_tree_print_tree(mytree);
 
    int lba = b_tree_find(b_tree, key);
