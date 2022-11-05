@@ -126,6 +126,7 @@ This will just create sector 1, a root node sector.
 */
 void *b_tree_create(char *filename, long size, int key_size)
 {
+   printf("Creating tree\n");
    if(key_size <= 0)
    {
       return NULL;
