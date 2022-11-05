@@ -29,7 +29,7 @@ Reads the btree info from the disk.
 void read_tree(B_Tree *btree)
 {
    unsigned char buf[1024];
-   jdisk_read(btree->disk, 0, (void*)buf);
+   jdisk_read(btree->disk, 1, (void*)buf);
 
    // Basically an inverse operation of the above
    btree->key_size = *(unsigned int*)(buf);
