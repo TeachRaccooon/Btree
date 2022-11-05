@@ -34,6 +34,8 @@ void read_tree(B_Tree *btree)
    btree->key_size = *(unsigned int*)(buf);
    btree->root_lba = *(unsigned int*)(buf + 4);
    btree->first_free_block = *(unsigned long int*)(buf + 8);
+   // allocate space for the root
+   btree->root = malloc(sizeof(Tree_Node));
 
    // num sectors
    btree->num_lbas = btree->size / JDISK_SECTOR_SIZE;
