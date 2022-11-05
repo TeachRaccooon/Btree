@@ -550,6 +550,42 @@ unsigned int get_node_level(Tree_Node *node)
    return level;
 }
 
+void print_possible_hex(void *val, int len)
+{
+   int i;
+   int is_string = 1; /* innocent until proven guilty */
+   for(i = 0; i < len; i++)
+   {
+      if(('a' <= ((char*)val)[i] && ((char*)val)[i] <= 'z') ||
+         ('A' <= ((char*)val)[i] && ((char*)val)[i] <= 'Z'))
+      {
+         ;
+      }
+      else if( ((char*)val)[i] == '\0' && i > len/3)
+      {
+         break; /* it's a string enough to me. Good to move on. */
+      }
+      else
+      {
+         is_string = 0;
+         break;
+      }
+   }
+   if(is_string)
+   {
+      printf("%s\n", (char*)val);
+   }
+   else
+   {
+      for(i = 0; i < len; i++)
+      {
+         printf("%02X", ((char*)val)[i]);
+      }
+      printf("\n");
+   }
+   return;
+}
+
 void print_node(B_Tree *b_tree, Tree_Node *node)
 {
    int i;
@@ -576,9 +612,9 @@ void print_node(B_Tree *b_tree, Tree_Node *node)
          if(!(node->children[i]))
          {
             node->children[i] = malloc(sizeof(Tree_Node));
-            read_b_tree_node(b_tree, node->children[i], node->lbas[i], node);
+            read_node(b_tree, node->children[i], node->lbas[i], node);
          }
-         mb_tree_print_node(b_tree, node->children[i]);
+         print_node(b_tree, node->children[i]);
       }
    }
    return;
