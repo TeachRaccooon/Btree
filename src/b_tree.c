@@ -201,6 +201,8 @@ void *b_tree_attach(char *filename)
    // Read that btree
    read_tree(mytree);
 
+   printf("First bit in attach %d\n", mytree->root->internal);
+
    return (void *)mytree;
 }
 
