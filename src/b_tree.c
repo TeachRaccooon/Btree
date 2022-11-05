@@ -172,7 +172,7 @@ void *b_tree_create(char *filename, long size, int key_size)
    root->children = malloc((mytree->keys_per_block + 2) * sizeof(Tree_Node*));
    for(int i = 0; i < mytree->keys_per_block + 2; ++i)
    {
-      root->children[i] = malloc(sizeof(Tree_Node));
+      //root->children[i] = malloc(sizeof(Tree_Node));
    }
    root->parent = NULL;
    // What should i do here?
