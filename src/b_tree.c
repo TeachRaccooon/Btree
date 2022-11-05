@@ -366,6 +366,7 @@ unsigned int b_tree_insert(void *b_tree, void *key, void *record)
    printf("In Insert\n");
  
    B_Tree* mytree = (B_Tree*) b_tree;
+
    b_tree_print_tree(mytree);
 
    int lba = b_tree_find(b_tree, key);
@@ -629,6 +630,7 @@ void print_node(B_Tree *b_tree, Tree_Node *node)
 
 void b_tree_print_tree(B_Tree *tree)
 {
+   printf("/-------------------------PRINT BEGIN--------------------/");
    printf("b_tree information\n");
    printf("key size: %u\n", tree->key_size);
    printf("root lba: %u\n", tree->root_lba);
@@ -645,7 +647,7 @@ void b_tree_print_tree(B_Tree *tree)
    }
 
    print_node(tree, tree->root);
-
+   printf("/-------------------------PRINT END--------------------/");
    return;
 }
 
