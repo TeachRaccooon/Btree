@@ -621,7 +621,7 @@ void print_node(B_Tree *b_tree, Tree_Node *node)
             node->children[i] = malloc(sizeof(Tree_Node));
             read_node(b_tree, node->children[i], node->lbas[i], node);
          }
-         //return;
+         return;
          print_node(b_tree, node->children[i]);
       }
    }
