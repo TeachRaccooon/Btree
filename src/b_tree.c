@@ -550,28 +550,35 @@ unsigned int get_node_level(Tree_Node *node)
    return level;
 }
 
-void print_node(B_Tree *tree, Tree_Node *node)
+void print_node(B_Tree *b_tree, Tree_Node *node)
 {
+   int i;
    printf("block at lba %u (level %u)\n", node->lba, get_node_level(node));
-   printf("num keys: %d\n", (int) (node->nkeys));
-   for(int i = 0; i < (int) (node->nkeys); ++i)
+   printf("   num keys: %d\n", node->nkeys);
+   for(i = 0; i < node->nkeys; i++)
    {
-      printf("   key %d: %s\n", i, node->keys[i]);
+      printf("   key %d: ", i);
+      print_possible_hex(node->keys[i], 8);
    }
-   for(int i = 0; i < (int) (node->nkeys) + 1; ++i)
+   for(i = 0; i < node->nkeys+1; i++)
    {
-      printf("   lba %d: %u\n", i, node->lbas[i]);
+      printf("    lba %d: %-3u ", i, node->lbas[i]);
+      if(node->internal)
+      {
+         printf("(my pointer: 0x%016lx)",(unsigned long) node->children[i]);
+      }
+      printf("\n");
    }
    if(node->internal)
    {
-      for(int i = 0; i <(int) (node->nkeys) + 1; ++i)
+      for(i = 0; i < node->keys+1; i++)
       {
-         /* read in the node to cache if we haven't done so yet. */
          if(!(node->children[i]))
          {
-            read_node(tree, node->children[i], node->lbas[i], node);
+            node->children[i] = malloc(sizeof(Tree_Node));
+            read_b_tree_node(b_tree, node->children[i], node->lbas[i], node);
          }
-         print_node(tree, node->children[i]);
+         mb_tree_print_node(b_tree, node->children[i]);
       }
    }
    return;
@@ -590,6 +597,7 @@ void b_tree_print_tree(B_Tree *tree)
    /* now load in the root node, if not already loaded */
    if(!(tree->root))
    {
+      tree->root = malloc(sizeof(Tree_Node));
       read_node(tree, tree->root, tree->root_lba, NULL);
    }
 
