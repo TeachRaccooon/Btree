@@ -271,7 +271,7 @@ unsigned int b_tree_find(void *b_tree, void *key)
             int compare = memcmp(key, curr_node->keys[i], mytree->key_size);
 
             printf("Compare is %d \n", compare);
-            return 0;
+            //return 0;
             // Check if the keys are matching
             if(!compare)
             {
@@ -324,7 +324,7 @@ unsigned int b_tree_find(void *b_tree, void *key)
                curr_node = curr_node->children[i];
                break;
             }
-            else if(compare > 0 && i == mytree->keys_per_block)
+            else if(compare > 0 && i == (curr_node->nkeys) - 1)
             {
                // the default situation here would be to just go to the next key
                // But if we're at the last key, jump to the rightmost child 
