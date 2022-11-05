@@ -235,7 +235,7 @@ unsigned int b_tree_find(void *b_tree, void *key)
          // So grab the rightmost child
          // Need to actually read the child node from the disk
          printf("Key found\n");
-         read_node(mytree,  curr_node->children[(int)(curr_node->nkeys) - 1], curr_node->lbas[(int)(curr_node->nkeys) - 1], curr_node);
+         read_node(mytree,  curr_node->children[(int)(curr_node->nkeys)], curr_node->lbas[(int)(curr_node->nkeys)], curr_node);
          curr_node = curr_node->children[ (int)(curr_node->nkeys)];
       }
       else
@@ -376,6 +376,7 @@ unsigned int b_tree_insert(void *b_tree, void *key, void *record)
       // check if we've exceeded maxkey
       if((int)(node_found->nkeys) > mytree->keys_per_block)
       {
+         printf("Splitting node\n");
          // oh boy here we fucking go - need to split
          
          // grab a midpoint of keys
