@@ -226,6 +226,7 @@ unsigned int b_tree_find(void *b_tree, void *key)
    {
       if(curr_node->nkeys == 0 && found_key == 0)
       {
+         printf("Early termination\n");
          // Likely an empty root type situation, nothing was found too
          mytree->tmp_e = curr_node;
          return 0;
