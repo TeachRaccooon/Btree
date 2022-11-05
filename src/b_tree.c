@@ -362,7 +362,7 @@ unsigned int b_tree_insert(void *b_tree, void *key, void *record)
    printf("In Insert\n");
  
    B_Tree* mytree = (B_Tree*) b_tree;
-   b_tree_print_tree(mytree);
+   //b_tree_print_tree(mytree);
 
    int lba = b_tree_find(b_tree, key);
 
@@ -614,6 +614,7 @@ void print_node(B_Tree *b_tree, Tree_Node *node)
             node->children[i] = malloc(sizeof(Tree_Node));
             read_node(b_tree, node->children[i], node->lbas[i], node);
          }
+         return;
          print_node(b_tree, node->children[i]);
       }
    }
