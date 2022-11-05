@@ -94,18 +94,20 @@ void read_node(B_Tree *btree, Tree_Node *node, unsigned int lba, Tree_Node* pare
    // Pretty much doing an inverse of the above function, filling an empty node with data
    node->internal = buf[0];
    node->nkeys    = buf[1];
+   node->lba  = lba;
    // Allocate space for keys
    node->keys     = malloc((btree->keys_per_block + 1) * sizeof(char *));
+   node->lbas     = malloc((btree->keys_per_block + 2) * sizeof(unsigned int));
+   node->children = malloc((btree->keys_per_block + 2) * sizeof(Tree_Node*));
 
-   for(int i = 0; i < btree->keys_per_block + 1; ++i)
+   int i = 0;
+   for(; i < btree->keys_per_block + 1; ++i)
    {
       // Allocate space for individual keys
       node->keys[i]  = malloc(btree->key_size);
+      node->children[i]  = NULL;
    }
-
-   node->lbas = malloc((btree->keys_per_block + 2) * sizeof(unsigned int));
-   node->children  = malloc((btree->keys_per_block + 2) * sizeof(Tree_Node*));
-   node->lba  = lba;
+   node->children[i]  = NULL;
 
    int k_sz = btree->key_size;
 
@@ -208,6 +210,7 @@ Finding a value associated with a key.
 Returns LBA of the val associated with the key.
 If key is not in the tree, returns 0.
 */
+/*
 unsigned int b_tree_find(void *b_tree, void *key)
 {
    B_Tree* mytree = ((B_Tree *)b_tree);
@@ -339,6 +342,127 @@ unsigned int b_tree_find(void *b_tree, void *key)
 
    // Means we've somehow failed
    return -1;
+}
+*/
+
+
+unsigned int b_tree_find(void *b_tree, void *key)
+{
+   B_Tree* mytree = ((B_Tree *)b_tree);
+
+   // The node that we keep track of at any iteration
+   Tree_Node *curr_node = mytree->root;
+
+   // Indicator stating whether the key has been identified
+   int found_key = 0;
+
+   printf("In Find\n");
+   // Iterate while we're on internal node. Otherswise, return 0
+   while(curr_node->internal)
+   {
+      if(curr_node->nkeys == 0 && found_key == 0)
+      {
+         // Likely an empty root type situation, nothing was found too
+         mytree->tmp_e = curr_node;
+         return 0;
+      }
+
+      if(found_key)
+      {
+         // Now we just want to get to the external node asap
+         // So grab the rightmost child
+         // Need to actually read the child node from the disk
+         //printf("Key found\n");
+         //printf("nkeys in the node %d\n", (int)(curr_node->nkeys));
+         // Need to make sure a child node exists
+         //if(!curr_node->children[(int)(curr_node->nkeys)])
+         //{
+            curr_node->children[(int)(curr_node->nkeys)] = malloc(sizeof(Tree_Node));
+            read_node(mytree,  curr_node->children[(int)(curr_node->nkeys)], curr_node->lbas[(int)(curr_node->nkeys)], curr_node);
+         //}
+
+         curr_node = curr_node->children[ (int)(curr_node->nkeys)];
+      }
+      else
+      {
+         // Iterate through the keys in the node
+         for(int i = 0; i < (int)(curr_node->nkeys); ++i)
+         {
+            int compare = memcmp(key, curr_node->keys[i], mytree->key_size);
+
+            // Check if the keys are matching
+            if(!compare)
+            {
+               // We've found the key, now we need to find the value (in another node)
+               // In the convention we're using, it will be in the right pointer of the
+               // smaller node.
+               // So we're jumping to the left child and then skipping the key comparison in
+               // any further alg iterations, grabbing the rightmost child right away
+               found_key = 1;
+
+               // If we're at an external node, then we're done lol
+               if(!(curr_node->internal))
+               {
+                  return curr_node->lbas[i];
+               }
+               printf("Key found now\n");
+               printf("nkeys in the node %d\n", (int)(curr_node->nkeys));
+
+               // Need to make sure a child node exists
+               //if(!curr_node->children[i])
+               //{
+                  curr_node->children[i] = malloc(sizeof(Tree_Node));
+                  // Need to actually read the child node from the disk
+                  read_node(mytree,  curr_node->children[i], curr_node->lbas[i], curr_node);
+               //}
+               curr_node = curr_node->children[i];
+               break;
+            }
+            else if(compare < 0)
+            {
+               // In this case, the the key is in a "smaller" node
+               // We need to look at the left child of the key
+
+               printf("Key less\n");
+               // Need to make sure a child node exists
+               //if(!curr_node->children[i])
+               //{
+                  curr_node->children[i] = malloc(sizeof(Tree_Node));
+                  // Need to actually read the child node from the disk
+                  read_node(mytree,  curr_node->children[i], curr_node->lbas[i], curr_node);
+               //}
+               curr_node = curr_node->children[i];
+               break;
+            }
+            else if(compare > 0 && i == mytree->keys_per_block)
+            {
+               // the default situation here would be to just go to the next key
+               // But if we're at the last key, jump to the rightmost child 
+
+               printf("Key greater jump\n");
+               // Need to make sure a child node exists
+               //if(!curr_node->children[i + 1])
+               //{
+                  curr_node->children[i + 1] = malloc(sizeof(Tree_Node));
+                  // Need to actually read the child node from the disk
+                  read_node(mytree,  curr_node->children[i + 1], curr_node->lbas[i + 1], curr_node);
+               //}
+               curr_node = curr_node->children[i + 1];
+               break;
+            }
+         }
+      }
+   }
+
+   if(!found_key)
+   {
+      // pointer to external node
+      mytree->tmp_e = curr_node;
+      return 0;
+   }
+
+   // We've reached an external node and we've found key, return lba of the rightmost
+   return curr_node->lbas[(int)(curr_node->nkeys)];
 }
 
 void shift_node_dat(Tree_Node *node, int i)
