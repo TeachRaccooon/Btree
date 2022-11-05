@@ -227,6 +227,7 @@ unsigned int b_tree_find(void *b_tree, void *key)
          // Now we just want to get to the external node asap
          // So grab the rightmost child
          // Need to actually read the child node from the disk
+         printf("Key found\n");
          read_node(mytree,  curr_node->children[(int)(curr_node->nkeys)], curr_node->lbas[(int)(curr_node->nkeys)], curr_node);
          curr_node = curr_node->children[ (int)(curr_node->nkeys)];
 
@@ -258,7 +259,7 @@ unsigned int b_tree_find(void *b_tree, void *key)
                {
                   return curr_node->lbas[i];
                }
-
+               printf("Key found now\n");
                // Need to actually read the child node from the disk
                read_node(mytree,  curr_node->children[i], curr_node->lbas[i], curr_node);
                curr_node = curr_node->children[i];
@@ -276,7 +277,7 @@ unsigned int b_tree_find(void *b_tree, void *key)
                   mytree->tmp_e = curr_node;
                   return 0;
                }
-
+               printf("Key less\n");
                // Need to actually read the child node from the disk
                read_node(mytree,  curr_node->children[i], curr_node->lbas[i], curr_node);
                curr_node = curr_node->children[i];
@@ -294,7 +295,7 @@ unsigned int b_tree_find(void *b_tree, void *key)
                   mytree->tmp_e = curr_node;
                   return 0;
                }
-
+               printf("Key greater jump\n");
                // Need to actually read the child node from the disk
                read_node(mytree,  curr_node->children[i + 1], curr_node->lbas[i + 1], curr_node);
                curr_node = curr_node->children[i + 1];
