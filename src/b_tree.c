@@ -235,7 +235,7 @@ unsigned int b_tree_find(void *b_tree, void *key)
          // So grab the rightmost child
          // Need to actually read the child node from the disk
          printf("Key found\n");
-         read_node(mytree,  curr_node->children[(int)(curr_node->nkeys)], curr_node->lbas[(int)(curr_node->nkeys)], curr_node);
+         read_node(mytree,  curr_node->children[(int)(curr_node->nkeys) - 1], curr_node->lbas[(int)(curr_node->nkeys) - 1], curr_node);
          curr_node = curr_node->children[ (int)(curr_node->nkeys)];
       }
       else
