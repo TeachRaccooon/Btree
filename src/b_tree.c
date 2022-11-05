@@ -19,6 +19,7 @@ void write_tree(B_Tree *btree)
    *((unsigned long int *)(buf + 8)) = btree->first_free_block;
 
    // Write  the buffer to the disk
+   printf("WARNING: ABOUT TO WRITE INTO JDISK\n");
    jdisk_write(btree->disk, 0, (void*)buf);
 }
 
@@ -74,6 +75,7 @@ void write_node(B_Tree *btree, Tree_Node *node)
    memcpy(buf + 1024 - lba_space_sz, node->lbas, lba_space_sz);
 
    // Write the buffer into the disk
+   printf("WARNING: ABOUT TO WRITE INTO JDISK\n");
    jdisk_write(btree->disk, node->lba, (void*)buf);
 }
 
@@ -379,6 +381,7 @@ unsigned int b_tree_insert(void *b_tree, void *key, void *record)
    if(lba) 
    {
       // key found, p, place record into val
+      printf("WARNING: ABOUT TO WRITE INTO JDISK\n");
       jdisk_write(((B_Tree*) b_tree)->disk, lba, record);
 
       // Do we need to update the btree itself now?
@@ -528,6 +531,7 @@ unsigned int b_tree_insert(void *b_tree, void *key, void *record)
       write_node(mytree, node_found);
       write_tree(mytree);
       // write data
+      printf("WARNING: ABOUT TO WRITE INTO JDISK\n");
       jdisk_write(mytree->disk, node_found->lbas[i], record);
 
       printf("Insert end\n");
