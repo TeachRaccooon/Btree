@@ -360,10 +360,12 @@ void shift_node_dat(Tree_Node *node, int i)
 unsigned int b_tree_insert(void *b_tree, void *key, void *record)
 {
    printf("In Insert\n");
+ 
    int lba = b_tree_find(b_tree, key);
 
    B_Tree* mytree = (B_Tree*) b_tree;
-   
+   b_tree_print_tree(mytree);
+
    if(lba) 
    {
       // key found, p, place record into val
