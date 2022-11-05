@@ -596,7 +596,7 @@ void print_node(B_Tree *b_tree, Tree_Node *node)
       printf("   key %d: ", i);
       print_possible_hex(node->keys[i], 8);
    }
-   for(i = 0; i < node->nkeys+1; i++)
+   for(i = 0; i < (int) (node->nkeys+1); i++)
    {
       printf("    lba %d: %-3u ", i, node->lbas[i]);
       if(node->internal)
@@ -607,7 +607,7 @@ void print_node(B_Tree *b_tree, Tree_Node *node)
    }
    if(node->internal)
    {
-      for(i = 0; i < node->keys+1; i++)
+      for(i = 0; i < (int) (node->nkeys+1); i++)
       {
          if(!(node->children[i]))
          {
