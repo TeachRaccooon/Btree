@@ -82,6 +82,12 @@ void write_node(B_Tree *btree, Tree_Node *node)
 void read_node(B_Tree *btree, Tree_Node *node, unsigned int lba, Tree_Node* parent)
 {
 
+   if(node == NULL)
+   {
+      fprintf(stderr, "Please pass a pre-allocated node.\n");
+      exit(1);
+   }
+
    unsigned char buf[1024];
    jdisk_read(btree->disk, 0, (void*) buf);
 
