@@ -4,7 +4,7 @@
 #include "jdisk.h"
 
 typedef struct tnode {
-   unsigned char bytes[JDISK_SECTOR_SIZE+256]; /* This holds the sector for reading and writing.  
+   unsigned char bytes[1024+256]; /* This holds the sector for reading and writing.  
                                                    It has extra room because your internal representation  
                                                    will hold an extra key. */
    unsigned char nkeys;                      /* Number of keys in the node */

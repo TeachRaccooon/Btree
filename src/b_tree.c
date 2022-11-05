@@ -38,7 +38,7 @@ void read_tree(B_Tree *btree)
    btree->root = malloc(sizeof(Tree_Node));
 
    // num sectors
-   btree->num_lbas = btree->size / JDISK_SECTOR_SIZE;
+   btree->num_lbas = btree->size / 1024;
    // Maxkey
    btree->keys_per_block =  (1024 - 6) / (btree->key_size + 4);
 
@@ -145,7 +145,7 @@ void *b_tree_create(char *filename, long size, int key_size)
 
    mytree->disk = mydisk;     
    mytree->size = size;      
-   mytree->num_lbas = mytree->size / JDISK_SECTOR_SIZE;
+   mytree->num_lbas = mytree->size / 1024;
    // Maxkey
    mytree->keys_per_block = (1024 - 6) / (key_size + 4);
    // Maxkey + 1
