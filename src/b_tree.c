@@ -67,7 +67,7 @@ void write_node(B_Tree *btree, Tree_Node *node)
    {
       // Don't forget the offset by 2!
       memcpy(buf + 2 + (i * k_sz), node->keys[i], k_sz);
-      primtf("COPYING KEY WITH LETTER %c\n", *(node->keys[i]));
+      printf("COPYING KEY WITH LETTER %c\n", *(node->keys[i]));
    }
 
    // How many bytes do LBA's occupy in a node (remember about an additional one)
