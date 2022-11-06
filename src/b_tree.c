@@ -153,9 +153,6 @@ void *b_tree_create(char *filename, long size, int key_size)
    mytree->size = size;      
    mytree->num_lbas = mytree->size / 1024;
    // Maxkey
-   printf("KEY SIZE %d\n", (JDISK_SECTOR_SIZE - 2 - sizeof(unsigned int)) / (key_size + sizeof(unsigned int)));
-
-   
    mytree->keys_per_block = (1024 - 6) / (key_size + 4);
    // Maxkey + 1
    mytree->lbas_per_block = mytree->keys_per_block + 1;
@@ -476,7 +473,7 @@ unsigned int b_tree_insert(void *b_tree, void *key, void *record)
          //newnode->flush = 0;
          newnode->internal = 0;
          newnode->lba = mytree->first_free_block;
-
+         /*
          // previous node exists
          if(node_found->parent != NULL)
          {
@@ -543,6 +540,9 @@ unsigned int b_tree_insert(void *b_tree, void *key, void *record)
          // Now, write the node_found->parent and newnode
          write_node(mytree, node_found->parent);
          write_node(mytree, newnode);
+         */
+
+        printf("/________________________STOP/\n");
       }
       
       // write node_found and btree
