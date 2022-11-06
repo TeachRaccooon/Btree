@@ -153,11 +153,8 @@ void *b_tree_create(char *filename, long size, int key_size)
    mytree->size = size;      
    mytree->num_lbas = mytree->size / 1024;
    // Maxkey
-   printf("KEY SIZE %d\n", key_size);
-   printf("MAXKEY %d\n", (1024 - 6) / (16 + 4));
-   printf("MAXKEY %d\n", (1024 - 6) / (key_size + 4));
-   int f = (1024 - 6) / (key_size + 4);
-    printf("MAXKEY %d\n", f);
+   printf("KEY SIZE %d\n", (JDISK_SECTOR_SIZE - 2 - sizeof(unsigned int)) / (key_size + sizeof(unsigned int)));
+
    
    mytree->keys_per_block = (1024 - 6) / (key_size + 4);
    // Maxkey + 1
