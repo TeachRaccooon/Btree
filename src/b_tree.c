@@ -433,6 +433,7 @@ unsigned int b_tree_insert(void *b_tree, void *key, void *record)
       node_found->children[i] = record;
 
       node_found->nkeys = (unsigned char) ((int) (node_found ->nkeys) + 1);
+      printf("CURRENT NUMBER OF KEYS %d\n", node_found->nkeys);
 
       // check if we've exceeded maxkey
       if((int)(node_found->nkeys) > mytree->keys_per_block)
