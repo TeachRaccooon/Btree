@@ -283,7 +283,7 @@ unsigned int b_tree_find(void *b_tree, void *key)
                found_key = 1;
 
                // If we're at an external node, then we're done lol
-               printf("JUST FUND THE KEY-JUMPING TO THE LEFT\n");
+               printf("JUST FOUND THE KEY-JUMPING TO THE LEFT\n");
                printf("nkeys in the node %d\n", (int)(curr_node->nkeys));
                printf("Next lba is: %d\n", curr_node->lbas[i]);
                if(!(curr_node->internal))
@@ -538,6 +538,11 @@ unsigned int b_tree_insert(void *b_tree, void *key, void *record)
       // write data
       printf("WARNING: ABOUT TO WRITE INTO JDISK\n");
       jdisk_write(mytree->disk, node_found->lbas[i], record);
+
+
+
+      printf("PRINTING TREE AFTER INSERTING\n");
+      b_tree_print_tree(mytree);
 
       printf("FUNCTION: INSERT END\n\n");
       return val_lba;
