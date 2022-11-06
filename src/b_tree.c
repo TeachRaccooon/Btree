@@ -478,7 +478,7 @@ unsigned int b_tree_insert(void *b_tree, void *key, void *record)
          newnode->lbas[m] = node_found->lbas[m];
          memcpy(node_found->children[k], newnode->children[m], sizeof(Tree_Node*));
          
-         newnode->nkeys = k;
+         newnode->nkeys = k - midkey - 1;
          //newnode->flush = 0;
          newnode->internal = 0;
          newnode->lba = mytree->first_free_block;
