@@ -527,6 +527,7 @@ unsigned int b_tree_insert(void *b_tree, void *key, void *record)
          // Update the first free node
          mytree->first_free_block = mytree->first_free_block + 1;
 
+         printf("BEFORE INNER WRITES\n");
          // Now, write the node_found->parent and newnode
          write_node(mytree, node_found->parent);
          write_node(mytree, newnode);
