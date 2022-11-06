@@ -463,7 +463,7 @@ unsigned int b_tree_insert(void *b_tree, void *key, void *record)
          newnode->children[j] = malloc(sizeof(Tree_Node));
          // now, make copies
          // copying keys
-         
+         fprintf(stderr, "Before.\n");
          int k = midkey + 1, m = 0;
          for(; k < (int) (node_found->nkeys); ++k, ++m)
          {
