@@ -283,13 +283,13 @@ unsigned int b_tree_find(void *b_tree, void *key)
                found_key = 1;
 
                // If we're at an external node, then we're done lol
+               printf("JUST FUND THE KEY-JUMPING TO THE LEFT\n");
+               printf("nkeys in the node %d\n", (int)(curr_node->nkeys));
+               printf("Next lba is: %d\n", curr_node->lbas[i]);
                if(!(curr_node->internal))
                {
                   return curr_node->lbas[i];
                }
-               printf("JUST FUND THE KEY-JUMPING TO THE LEFT\n");
-               printf("nkeys in the node %d\n", (int)(curr_node->nkeys));
-               printf("Next lba is: %d\n", curr_node->lbas[i]);
 
                // Need to make sure a child node exists
                //if(!curr_node->children[i])
@@ -307,13 +307,13 @@ unsigned int b_tree_find(void *b_tree, void *key)
                // We need to look at the left child of the key
 
                // If we're at an external node, no key will be found - terminate
+               printf("Key less\n");
                if(!(curr_node->internal))
                {
                   // pointer to external node
                   mytree->tmp_e = curr_node;
                   return 0;
                }
-               printf("Key less\n");
                // Need to make sure a child node exists
                //if(!curr_node->children[i])
                //{
@@ -330,13 +330,13 @@ unsigned int b_tree_find(void *b_tree, void *key)
                // But if we're at the last key, jump to the rightmost child 
 
                // If we're at an external node, no key will be found - terminate
+               printf("Key greater jump\n");
                if(!(curr_node->internal))
                {
                   // pointer to external node
                   mytree->tmp_e = curr_node;
                   return 0;
                }
-               printf("Key greater jump\n");
                // Need to make sure a child node exists
                //if(!curr_node->children[i + 1])
                //{
