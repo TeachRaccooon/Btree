@@ -352,6 +352,7 @@ unsigned int b_tree_find(void *b_tree, void *key)
    }
 
    // Means we've somehow failed
+   printf("SOME ISSUE OCCURED\n");
    return -1;
 }
 
