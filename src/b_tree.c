@@ -467,7 +467,7 @@ unsigned int b_tree_insert(void *b_tree, void *key, void *record)
          int k = midkey + 1, m = 0;
          for(; k < (int) (node_found->nkeys); ++k, ++m)
          {
-            memcpy(node_found->keys[k], newnode->keys[m], sizeof(char*));
+            memcpy(newnode->keys[m], node_found->keys[k], sizeof(char*));
             newnode->lbas[m] = node_found->lbas[k];
             memcpy(node_found->children[k], newnode->children[m], sizeof(Tree_Node*));
 
