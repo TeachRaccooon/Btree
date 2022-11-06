@@ -382,6 +382,7 @@ unsigned int b_tree_insert(void *b_tree, void *key, void *record)
    B_Tree* mytree = (B_Tree*) b_tree;
 
    printf("SIZE OF THE TREE: %d\n", mytree->size);
+   printf("MAXKEY: %d\n", mytree->keys_per_block);
    printf("PRINTING TREE BEFORE INSERTING\n");
    b_tree_print_tree(mytree);
 
