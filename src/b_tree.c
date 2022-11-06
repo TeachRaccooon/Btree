@@ -381,9 +381,9 @@ unsigned int b_tree_insert(void *b_tree, void *key, void *record)
  
    B_Tree* mytree = (B_Tree*) b_tree;
 
-   unsigned char *buf[] = {'f', 'd', 'c'};
-   jdisk_write(mytree->disk, 1, (void*)buf);
-   /*
+   //unsigned char *buf[] = {'f', 'd', 'c'};
+   //jdisk_write(mytree->disk, 1, (void*)buf);
+   
    if(!memcmp(key, "Mackenzie", 9))
    {
       //return 0;
@@ -433,6 +433,7 @@ unsigned int b_tree_insert(void *b_tree, void *key, void *record)
       mytree->first_free_block = mytree->first_free_block + 1;
 
       // place the new data at i
+      printf("Inserting key %d with start letter %c", i, *(char*)key);
       node_found->keys[i] = key;
       node_found->lbas[i] = val_lba;
       node_found->children[i] = record;
@@ -548,13 +549,16 @@ unsigned int b_tree_insert(void *b_tree, void *key, void *record)
          write_node(mytree, newnode);
       }
       
-      printf("BEFORE WRITES\n");
       // write node_found and btree
+      
+      
+      
       write_node(mytree, node_found);
       write_tree(mytree);
+
+
+
       // write data
-      printf("AFTER WRITES\n");
-      printf("WARNING: ABOUT TO WRITE INTO JDISK\n");
       jdisk_write(mytree->disk, node_found->lbas[i], record);
 
 
@@ -565,7 +569,6 @@ unsigned int b_tree_insert(void *b_tree, void *key, void *record)
       printf("FUNCTION: INSERT END\n\n");
       return val_lba;
    }
-   */
    return -1;
 }
 
