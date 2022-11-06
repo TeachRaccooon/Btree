@@ -571,6 +571,7 @@ unsigned int b_tree_insert(void *b_tree, void *key, void *record)
       b_tree_print_tree(mytree);
 
       printf("FUNCTION: INSERT END\n\n");
+      printf("/------------------------------INSERTING AT %d\n", val_lba);
       return val_lba;
    }
    return -1;
