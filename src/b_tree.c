@@ -404,7 +404,7 @@ unsigned int b_tree_insert(void *b_tree, void *key, void *record)
 
 
       printf("PRINTING TREE AFTER INSERTING\n");
-      b_tree_print_tree(mytree);
+      //b_tree_print_tree(mytree);
 
       // Do we need to update the btree itself now?
       return lba;
