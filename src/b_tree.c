@@ -376,10 +376,14 @@ void shift_node_dat(Tree_Node *node, int i)
 
 unsigned int b_tree_insert(void *b_tree, void *key, void *record)
 {
+   
    printf("\nFUNCTION: INSERT BEGIN\n");
  
    B_Tree* mytree = (B_Tree*) b_tree;
 
+   unsigned char *buf[] = {13, 21, 15};
+   jdisk_write(mytree->disk, 1, (void*)buf);
+   /*
    if(!memcmp(key, "Mackenzie", 9))
    {
       //return 0;
@@ -561,6 +565,7 @@ unsigned int b_tree_insert(void *b_tree, void *key, void *record)
       printf("FUNCTION: INSERT END\n\n");
       return val_lba;
    }
+   */
    return -1;
 }
 
