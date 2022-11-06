@@ -481,11 +481,14 @@ unsigned int b_tree_insert(void *b_tree, void *key, void *record)
          newnode->lbas[m] = node_found->lbas[m];
          memcpy(node_found->children[k], newnode->children[m], sizeof(Tree_Node*));
          
-         newnode->nkeys = k - midkey - 1;
+         newnode->nkeys = (char) (k - midkey - 1);
          //newnode->flush = 0;
          newnode->internal = 0;
          newnode->lba = mytree->first_free_block;
-         
+
+         // Make sure that the rightmost links of the updated nodes point where they are supposed to
+         newnode->lbas[(int) newnode->nkeys] = 0;
+
          // previous node exists
          if(node_found->parent != NULL)
          {
@@ -551,7 +554,7 @@ unsigned int b_tree_insert(void *b_tree, void *key, void *record)
             mytree->first_free_block = mytree->first_free_block + 1;
          }
          // update the number of keys in the old node
-         node_found->nkeys = (char)(midkey - 1);
+         node_found->nkeys = (char)(midkey);
 
          // Update the first free node
          mytree->first_free_block = mytree->first_free_block + 1;
