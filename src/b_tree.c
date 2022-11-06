@@ -532,11 +532,12 @@ unsigned int b_tree_insert(void *b_tree, void *key, void *record)
          write_node(mytree, newnode);
       }
       
+      printf("BEFORE WRITES\n");
       // write node_found and btree
       write_node(mytree, node_found);
       write_tree(mytree);
       // write data
-      printf("Here\n");
+      printf("AFTER WRITES\n");
       printf("WARNING: ABOUT TO WRITE INTO JDISK\n");
       jdisk_write(mytree->disk, node_found->lbas[i], record);
 
