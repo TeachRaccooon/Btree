@@ -447,13 +447,19 @@ unsigned int b_tree_insert(void *b_tree, void *key, void *record)
          // everything from the right to it gets copied to a new node
          Tree_Node *newnode = malloc(sizeof(Tree_Node));
          
-         newnode->keys      = malloc((mytree->keys_per_block + 1) * sizeof(char*));
+         newnode->keys      = calloc((mytree->keys_per_block + 1), sizeof(char*));
          newnode->lbas      = malloc((mytree->keys_per_block + 2) * sizeof(unsigned int));
-         newnode->children  = malloc((mytree->keys_per_block + 2) * sizeof(Tree_Node*));
+         newnode->children  = calloc((mytree->keys_per_block + 2), sizeof(Tree_Node*));
+         int j = 0;
+         for(; j < mytree->keys_per_block + 1; ++j)
+         {
+            newnode->keys[j] = calloc(1, mytree->key_size);
+            newnode->children[j] = malloc(sizeof(Tree_Node));
+         }
+         newnode->children[j] = malloc(sizeof(Tree_Node));
          // now, make copies
          // copying keys
          
-         /*
          int i = midkey + 1, j = 0;
          for(; i < (int) (node_found->nkeys); ++i, ++j)
          {
@@ -466,7 +472,7 @@ unsigned int b_tree_insert(void *b_tree, void *key, void *record)
             node_found->lbas[i] = 0;
             node_found->children[i] = NULL;
          }
-         
+         /*
          // one additional child and LBA
          newnode->lbas[j] = node_found->lbas[i];
          memcpy(node_found->children[i], newnode->children[j], sizeof(Tree_Node*));
