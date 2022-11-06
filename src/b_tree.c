@@ -286,7 +286,7 @@ unsigned int b_tree_find(void *b_tree, void *key)
                found_key = 1;
 
                // If we're at an external node, then we're done lol
-               printf("JUST FOUND THE KEY-JUMPING TO THE LEFT\n");
+               printf("JUST FOUND THE KEY at lba %d-JUMPING TO THE LEFT\n", curr_node->lba);
                printf("nkeys in the node %d\n", (int)(curr_node->nkeys));
                printf("Next lba is: %d\n", curr_node->lbas[i]);
                if(!(curr_node->internal))
