@@ -481,33 +481,35 @@ unsigned int b_tree_insert(void *b_tree, void *key, void *record)
          //newnode->flush = 0;
          newnode->internal = 0;
          newnode->lba = mytree->first_free_block;
-         /*
+         
          // previous node exists
          if(node_found->parent != NULL)
          {
+            printf("PREV NODE'S PARENT EXISTS\n");
             // find where the midkey key belongs
-            int i = 0;
-            while(memcmp(node_found->keys[midkey], node_found->parent->keys[i], mytree->key_size) > 0 && node_found->parent->keys[i] != 0)
+            int n = 0;
+            while(memcmp(node_found->keys[midkey], node_found->parent->keys[n], mytree->key_size) > 0 && node_found->parent->keys[n] != 0)
             {
-               ++i;
+               ++n;
             }
             // shift everything to the right
-            shift_node_dat(node_found->parent, i);
+            shift_node_dat(node_found->parent, n);
 
-            // place the new data at i
-            node_found->parent->keys[i] = node_found->keys[midkey];
+            // place the new data at n
+            node_found->parent->keys[n] = node_found->keys[midkey];
             // the shift here works a bit weird
-            node_found->parent->lbas[i] = node_found->lba;
-            node_found->parent->lbas[i + 1] = newnode->lba;
+            node_found->parent->lbas[n] = node_found->lba;
+            node_found->parent->lbas[n + 1] = newnode->lba;
 
-            node_found->parent->children[i] = node_found;
-            node_found->parent->children[i + 1] = newnode;
+            node_found->parent->children[n] = node_found;
+            node_found->parent->children[n + 1] = newnode;
 
             newnode->parent = node_found->parent;
             node_found->parent->nkeys = (char) (((int) node_found->parent->nkeys) + 1);
          }
          else
          {
+            printf("WARNING: PREV NODE'S PARENT IS NULL\n");
             //We need to create a parent node in this case
             // this will be the new root node then, so brace urself lol
             node_found->parent = malloc(sizeof(Tree_Node));
@@ -515,6 +517,13 @@ unsigned int b_tree_insert(void *b_tree, void *key, void *record)
             node_found->parent->keys      = malloc((mytree->keys_per_block + 1) * sizeof(char*));
             node_found->parent->lbas      = malloc((mytree->keys_per_block + 2) * sizeof(unsigned int));
             node_found->parent->children  = malloc((mytree->keys_per_block + 2) * sizeof(Tree_Node*));
+            j = 0;
+            for(; j < mytree->keys_per_block + 1; ++j)
+            {
+               node_found->parent->keys[j] = calloc(1, mytree->key_size);
+               node_found->parent->children[j] = malloc(sizeof(Tree_Node));
+            }
+            node_found->parent->children[j] = malloc(sizeof(Tree_Node));
 
             node_found->parent->parent = NULL;
             node_found->parent->nkeys = 1;
@@ -537,7 +546,7 @@ unsigned int b_tree_insert(void *b_tree, void *key, void *record)
             // Update the first free node
             mytree->first_free_block = mytree->first_free_block + 1;
          }
-
+         /*
          // update the number of keys in the old node
          node_found->nkeys = (char)(midkey - 1);
 
