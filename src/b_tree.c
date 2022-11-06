@@ -153,6 +153,11 @@ void *b_tree_create(char *filename, long size, int key_size)
    mytree->size = size;      
    mytree->num_lbas = mytree->size / 1024;
    // Maxkey
+   printf("MAXKEY %d\n", (1024 - 6) / (16 + 4));
+   printf("MAXKEY %d\n", (1024 - 6) / (key_size + 4));
+   int f = (1024 - 6) / (key_size + 4);
+    printf("MAXKEY %d\n", f);
+   
    mytree->keys_per_block = (1024 - 6) / (key_size + 4);
    // Maxkey + 1
    mytree->lbas_per_block = mytree->keys_per_block + 1;
