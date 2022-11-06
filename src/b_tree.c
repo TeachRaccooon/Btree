@@ -567,10 +567,8 @@ unsigned int b_tree_insert(void *b_tree, void *key, void *record)
       // write data
       jdisk_write(mytree->disk, node_found->lbas[i], record);
 
-
-
       printf("PRINTING TREE AFTER INSERTING\n");
-      //b_tree_print_tree(mytree);
+      b_tree_print_tree(mytree);
 
       printf("FUNCTION: INSERT END\n\n");
       return val_lba;
