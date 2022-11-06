@@ -439,6 +439,8 @@ unsigned int b_tree_insert(void *b_tree, void *key, void *record)
       if((int)(node_found->nkeys) > mytree->keys_per_block)
       {
          printf("WARNING: SPLITTING NODE\n");
+         b_tree_print_tree(mytree);
+
          // oh boy here we fucking go - need to split
          
          // grab a midpoint of keys
