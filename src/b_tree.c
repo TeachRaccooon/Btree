@@ -226,7 +226,7 @@ unsigned int b_tree_find(void *b_tree, void *key)
    // Indicator stating whether the key has been identified
    int found_key = 0;
 
-   printf("In Find\n");
+   printf("\nIn Find\n");
    printf("Nkeys in the root %d\n", (int) (curr_node->nkeys));
    // Iterate while we're on internal node. Otherswise, return 0
    while(1)
@@ -374,11 +374,11 @@ void shift_node_dat(Tree_Node *node, int i)
 
 unsigned int b_tree_insert(void *b_tree, void *key, void *record)
 {
-   printf("In Insert\n");
+   printf("\nFUNCTION: INSERT BEGIN\n");
  
    B_Tree* mytree = (B_Tree*) b_tree;
 
-   printf("PRINTING TREE BEFORE INSERT\n");
+   printf("PRINTING TREE BEFORE INSERTING\n");
    b_tree_print_tree(mytree);
 
    int lba = b_tree_find(b_tree, key);
@@ -398,7 +398,6 @@ unsigned int b_tree_insert(void *b_tree, void *key, void *record)
       // We need to find an appropriate place for the record to be inserted
       // suppose we've found the external node where this key belongs 
       Tree_Node *node_found = mytree->tmp_e;
-      printf("Root is internal %d\n", mytree->tmp_e->internal);
 
       // Search for a place in the found node to insert the key
       int i = 0;
@@ -427,7 +426,7 @@ unsigned int b_tree_insert(void *b_tree, void *key, void *record)
       // check if we've exceeded maxkey
       if((int)(node_found->nkeys) > mytree->keys_per_block)
       {
-         printf("Splitting node\n");
+         printf("WARNING: SPLITTING NODE\n");
          // oh boy here we fucking go - need to split
          
          // grab a midpoint of keys
@@ -539,7 +538,7 @@ unsigned int b_tree_insert(void *b_tree, void *key, void *record)
       printf("WARNING: ABOUT TO WRITE INTO JDISK\n");
       jdisk_write(mytree->disk, node_found->lbas[i], record);
 
-      printf("Insert end\n");
+      printf("FUNCTION: INSERT END\n\n");
       return val_lba;
    }
    return -1;
