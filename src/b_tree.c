@@ -460,28 +460,28 @@ unsigned int b_tree_insert(void *b_tree, void *key, void *record)
          // now, make copies
          // copying keys
          
-         int i = midkey + 1, j = 0;
-         for(; i < (int) (node_found->nkeys); ++i, ++j)
+         int k = midkey + 1, m = 0;
+         for(; k < (int) (node_found->nkeys); ++k, ++m)
          {
-            memcpy(node_found->keys[i], newnode->keys[j], sizeof(char*));
-            newnode->lbas[j] = node_found->lbas[i];
-            memcpy(node_found->children[i], newnode->children[j], sizeof(Tree_Node*));
+            memcpy(node_found->keys[k], newnode->keys[m], sizeof(char*));
+            newnode->lbas[m] = node_found->lbas[k];
+            memcpy(node_found->children[k], newnode->children[m], sizeof(Tree_Node*));
 
             // we also need to update the old node here
-            node_found->keys[i] = 0;
-            node_found->lbas[i] = 0;
-            node_found->children[i] = NULL;
+            node_found->keys[k] = 0;
+            node_found->lbas[k] = 0;
+            node_found->children[k] = NULL;
          }
-         /*
-         // one additional child and LBA
-         newnode->lbas[j] = node_found->lbas[i];
-         memcpy(node_found->children[i], newnode->children[j], sizeof(Tree_Node*));
          
-         newnode->nkeys = j;
+         // one additional child and LBA
+         newnode->lbas[m] = node_found->lbas[m];
+         memcpy(node_found->children[k], newnode->children[m], sizeof(Tree_Node*));
+         
+         newnode->nkeys = k;
          //newnode->flush = 0;
          newnode->internal = 0;
          newnode->lba = mytree->first_free_block;
-         
+         /*
          // previous node exists
          if(node_found->parent != NULL)
          {
