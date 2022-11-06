@@ -96,7 +96,6 @@ void read_node(B_Tree *btree, Tree_Node *node, unsigned int lba, Tree_Node* pare
 
    // Pretty much doing an inverse of the above function, filling an empty node with data
    node->internal = buf[0];
-   printf("First bit inside read_node %d\n", buf[0]);
    node->nkeys    = buf[1];
    node->lba  = lba;
    // Allocate space for keys
@@ -132,7 +131,7 @@ This will just create sector 1, a root node sector.
 */
 void *b_tree_create(char *filename, long size, int key_size)
 {
-   printf("Creating tree\n");
+   printf("IN FUNCTION CREATE\n");
    if(key_size <= 0)
    {
       return NULL;
@@ -204,8 +203,6 @@ void *b_tree_attach(char *filename)
 
    // Read that btree
    read_tree(mytree);
-
-   printf("First bit in attach %d\n", mytree->root->internal);
 
    return (void *)mytree;
 }
@@ -384,17 +381,8 @@ unsigned int b_tree_insert(void *b_tree, void *key, void *record)
  
    B_Tree* mytree = (B_Tree*) b_tree;
 
-   //unsigned char *buf[] = {'f', 'd', 'c'};
-   //jdisk_write(mytree->disk, 1, (void*)buf);
-   
-   if(!memcmp(key, "Mackenzie", 9))
-   {
-      //return 0;
-   }
-
-
-   //printf("PRINTING TREE BEFORE INSERTING\n");
-   //b_tree_print_tree(mytree);
+   printf("PRINTING TREE BEFORE INSERTING\n");
+   b_tree_print_tree(mytree);
 
    int lba = b_tree_find(b_tree, key);
 
