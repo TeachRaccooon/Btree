@@ -381,7 +381,7 @@ unsigned int b_tree_insert(void *b_tree, void *key, void *record)
 
    if(!memcmp(key, "Mackenzie", 9))
    {
-
+      return 0;
    }
 
 
