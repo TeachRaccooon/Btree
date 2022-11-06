@@ -19,7 +19,7 @@ void write_tree(B_Tree *btree)
    *((unsigned long int *)(buf + 8)) = btree->first_free_block;
 
    // Write  the buffer to the disk
-   printf("WARNING: ABOUT TO WRITE INTO JDISK\n");
+   //printf("WARNING: ABOUT TO WRITE INTO JDISK\n");
    jdisk_write(btree->disk, 0, (void*)buf);
 }
 
@@ -76,7 +76,7 @@ void write_node(B_Tree *btree, Tree_Node *node)
    memcpy(buf + 1024 - lba_space_sz, node->lbas, lba_space_sz);
 
    // Write the buffer into the disk
-   printf("WARNING: ABOUT TO WRITE INTO JDISK NODE WITH LBA %d\n", node->lba);
+   //printf("WARNING: ABOUT TO WRITE INTO JDISK NODE WITH LBA %d\n", node->lba);
    jdisk_write(btree->disk, node->lba, (void*)buf);
 }
 
@@ -227,16 +227,16 @@ unsigned int b_tree_find(void *b_tree, void *key)
    // Indicator stating whether the key has been identified
    int found_key = 0;
 
-   printf("\nIn Find\n");
-   printf("Nkeys in the root %d\n", (int) (curr_node->nkeys));
-   printf("Root lba %d\n", curr_node->lba);
+   printf("\nIN FUNCTION FIND\n");
+   //printf("Nkeys in the root %d\n", (int) (curr_node->nkeys));
+   //printf("Root lba %d\n", curr_node->lba);
    // Iterate while we're on internal node. Otherswise, return 0
    while(1)
    {
       //printf("Looping\n");
       if(curr_node->nkeys == 0 && found_key == 0)
       {
-         printf("Early termination\n");
+         //printf("Early termination\n");
          // Likely an empty root type situation, nothing was found too
          mytree->tmp_e = curr_node;
          return 0;
@@ -248,13 +248,14 @@ unsigned int b_tree_find(void *b_tree, void *key)
          // if we're at an external node, grab the val and return
          if(!(curr_node->internal))
          {
+            printf("FOUND VAL AT LBA %d\n", curr_node->lbas[(int)(curr_node->nkeys)]);
             return curr_node->lbas[(int)(curr_node->nkeys)];
          }
 
          // Now we just want to get to the external node asap
          // So grab the rightmost child
          // Need to actually read the child node from the disk
-         printf("KEY FOUND PREVIOSLY -- LOOKING FOR VAL\n");
+         //printf("KEY FOUND PREVIOSLY -- LOOKING FOR VAL\n");
          //printf("nkeys in the node %d\n", (int)(curr_node->nkeys));
          // Need to make sure a child node exists
          //if(!curr_node->children[(int)(curr_node->nkeys)])
@@ -270,10 +271,10 @@ unsigned int b_tree_find(void *b_tree, void *key)
          // Iterate through the keys in the node
          for(int i = 0; i < (int)(curr_node->nkeys); ++i)
          {
-            printf("%c\n", *(curr_node->keys[i]));
+            //printf("%c\n", *(curr_node->keys[i]));
             int compare = memcmp(key, curr_node->keys[i], mytree->key_size);
 
-            printf("Compare is %d \n", compare);
+            //printf("Compare is %d \n", compare);
             //return 0;
             // Check if the keys are matching
             if(!compare)
@@ -286,9 +287,7 @@ unsigned int b_tree_find(void *b_tree, void *key)
                found_key = 1;
 
                // If we're at an external node, then we're done lol
-               printf("JUST FOUND THE KEY at lba %d-JUMPING TO THE LEFT\n", curr_node->lba);
-               printf("nkeys in the node %d\n", (int)(curr_node->nkeys));
-               printf("Next lba is: %d\n", curr_node->lbas[i]);
+               printf("FOUND THE KEY AT LBA %d\n", curr_node->lba);
                if(!(curr_node->internal))
                {
                   return curr_node->lbas[i];
@@ -310,9 +309,10 @@ unsigned int b_tree_find(void *b_tree, void *key)
                // We need to look at the left child of the key
 
                // If we're at an external node, no key will be found - terminate
-               printf("Key less\n");
+               //printf("Key less\n");
                if(!(curr_node->internal))
                {
+                  printf("KEY NOT FOUND\n");
                   // pointer to external node
                   mytree->tmp_e = curr_node;
                   return 0;
@@ -333,9 +333,10 @@ unsigned int b_tree_find(void *b_tree, void *key)
                // But if we're at the last key, jump to the rightmost child 
 
                // If we're at an external node, no key will be found - terminate
-               printf("Key greater jump\n");
+               //printf("Key greater jump\n");
                if(!(curr_node->internal))
                {
+                  printf("KEY NOT FOUND\n");
                   // pointer to external node
                   mytree->tmp_e = curr_node;
                   return 0;
@@ -392,7 +393,7 @@ unsigned int b_tree_insert(void *b_tree, void *key, void *record)
    }
 
 
-   printf("PRINTING TREE BEFORE INSERTING\n");
+   //printf("PRINTING TREE BEFORE INSERTING\n");
    //b_tree_print_tree(mytree);
 
    int lba = b_tree_find(b_tree, key);
@@ -400,11 +401,11 @@ unsigned int b_tree_insert(void *b_tree, void *key, void *record)
    if(lba) 
    {
       // key found, p, place record into val
-      printf("WARNING: ABOUT TO WRITE INTO JDISK\n");
+      //printf("WARNING: ABOUT TO WRITE INTO JDISK\n");
       jdisk_write(((B_Tree*) b_tree)->disk, lba, record);
 
 
-      printf("PRINTING TREE AFTER INSERTING\n");
+      //printf("PRINTING TREE AFTER INSERTING\n");
       //b_tree_print_tree(mytree);
 
       // Do we need to update the btree itself now?
