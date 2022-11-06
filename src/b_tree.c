@@ -476,7 +476,7 @@ unsigned int b_tree_insert(void *b_tree, void *key, void *record)
             node_found->lbas[k] = 0;
             node_found->children[k] = NULL;
          }
-         
+         printf("GOT THROUGH\n");
          // one additional child and LBA
          newnode->lbas[m] = node_found->lbas[m];
          memcpy(node_found->children[k], newnode->children[m], sizeof(Tree_Node*));
