@@ -229,6 +229,7 @@ unsigned int b_tree_find(void *b_tree, void *key)
 
    printf("\nIn Find\n");
    printf("Nkeys in the root %d\n", (int) (curr_node->nkeys));
+   printf("Root lba %d\n", curr_node->lba);
    // Iterate while we're on internal node. Otherswise, return 0
    while(1)
    {
