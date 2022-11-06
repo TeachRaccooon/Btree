@@ -67,6 +67,7 @@ void write_node(B_Tree *btree, Tree_Node *node)
    {
       // Don't forget the offset by 2!
       memcpy(buf + 2 + (i * k_sz), node->keys[i], k_sz);
+      primtf("COPYING KEY WITH LETTER %c\n", *(node->keys[i]));
    }
 
    // How many bytes do LBA's occupy in a node (remember about an additional one)
@@ -75,7 +76,7 @@ void write_node(B_Tree *btree, Tree_Node *node)
    memcpy(buf + 1024 - lba_space_sz, node->lbas, lba_space_sz);
 
    // Write the buffer into the disk
-   printf("WARNING: ABOUT TO WRITE INTO JDISK\n");
+   printf("WARNING: ABOUT TO WRITE INTO JDISK NODE WITH LBA %d\n", node->lba);
    jdisk_write(btree->disk, node->lba, (void*)buf);
 }
 
@@ -550,14 +551,8 @@ unsigned int b_tree_insert(void *b_tree, void *key, void *record)
       }
       
       // write node_found and btree
-      
-      
-      
       write_node(mytree, node_found);
       write_tree(mytree);
-
-
-
       // write data
       jdisk_write(mytree->disk, node_found->lbas[i], record);
 
