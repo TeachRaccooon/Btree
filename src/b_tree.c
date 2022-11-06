@@ -49,7 +49,8 @@ void read_tree(B_Tree *btree)
 
 void write_node(B_Tree *btree, Tree_Node *node)
 {
-   if(btree->keys_per_block < node->nkeys)
+   printf("MAXKEYS: %d, NKEYS: %d\n", btree->keys_per_block, (int) node->nkeys);
+   if(btree->keys_per_block < (int) (node->nkeys))
    {
       // Check with Plank's msg
       fprintf(stderr, "Node exceeds MAXKEY.\n");
@@ -552,9 +553,11 @@ unsigned int b_tree_insert(void *b_tree, void *key, void *record)
          // Update the first free node
          mytree->first_free_block = mytree->first_free_block + 1;
 
-         printf("BEFORE INNER WRITES\n");
+         printf("WRITING PARENT BEGIN\n");
          // Now, write the node_found->parent and newnode
          write_node(mytree, node_found->parent);
+         printf("WRITING PARENT END\n");
+
          write_node(mytree, newnode);
       }
       
