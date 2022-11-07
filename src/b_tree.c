@@ -808,7 +808,7 @@ unsigned int b_tree_insert(void *b_tree, void *key, void *record)
       // suppose we've found the external node where this key belongs 
       Tree_Node *node_found = mytree->tmp_e;
 
-      int val_lba = insertion(mytree, node_found, key, 1);
+      int val_lba = insertion(mytree, node_found, key, 0);
       
       jdisk_write(mytree->disk, val_lba, record);
 
