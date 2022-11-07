@@ -679,7 +679,7 @@ unsigned int b_tree_insert(void *b_tree, void *key, void *record)
       mytree->first_free_block = mytree->first_free_block + 1;
 
       // place the new data at i
-      //printf("Inserting at key %d (maxkeys %d) with start letter %c\n", i, mytree->keys_per_block, *(char*)key);
+      printf("Inserting at key %d (maxkeys %d) with start letter %c\n", i, mytree->keys_per_block, *(char*)key);
       node_found->keys[i] = key;
       node_found->lbas[i] = val_lba;
       node_found->children[i] = record;
