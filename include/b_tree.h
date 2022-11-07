@@ -11,5 +11,5 @@ unsigned int b_tree_find(void *b_tree, void *key);
 void *b_tree_disk(void *b_tree);
 int b_tree_key_size(void *b_tree);
 
-void b_tree_print_tree(B_Tree *tree);
+void b_tree_print_tree(void *tree);
 #endif
