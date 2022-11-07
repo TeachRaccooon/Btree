@@ -503,6 +503,7 @@ unsigned int b_tree_insert(void *b_tree, void *key, void *record)
             fprintf(stderr, "Parent's lba %d.\n", node_found->parent->lba);
             while(memcmp(node_found->keys[midkey], node_found->parent->keys[n], mytree->key_size) > 0 && node_found->parent->keys[n] != 0)
             {
+               fprintf(stderr, "HI\n");
                ++n;
             }
             // shift everything to the right
