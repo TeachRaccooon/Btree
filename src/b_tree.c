@@ -1306,24 +1306,24 @@ void print_node(B_Tree *b_tree, Tree_Node *node)
 
 void b_tree_print_tree(void *tree)
 {
-   B_Tree* tree = (B_Tree *) tree;
+   B_Tree* tr = (B_Tree *) tree;
    printf("/-------------------------PRINT BEGIN--------------------/\n");
    printf("b_tree information\n");
-   printf("key size: %u\n", tree->key_size);
-   printf("root lba: %u\n", tree->root_lba);
-   printf("sectors:  %lu\n", tree->first_free_block);
+   printf("key size: %u\n", tr->key_size);
+   printf("root lba: %u\n", tr->root_lba);
+   printf("sectors:  %lu\n", tr->first_free_block);
    printf("\n");
-   printf("on a jdisk with %lu sectors\n", tree->num_lbas);
-   printf("with %d keys per node\n", tree->keys_per_block);
+   printf("on a jdisk with %lu sectors\n", tr->num_lbas);
+   printf("with %d keys per node\n", tr->keys_per_block);
 
    /* now load in the root node, if not already loaded */
-   if(!(tree->root))
+   if(!(tr->root))
    {
-      tree->root = malloc(sizeof(Tree_Node));
-      read_node(tree, tree->root, tree->root_lba, NULL);
+      tr->root = malloc(sizeof(Tree_Node));
+      read_node(tree, tr->root, tr->root_lba, NULL);
    }
 
-   print_node(tree, tree->root);
+   print_node(tree, tr->root);
    printf("/-------------------------PRINT END--------------------/\n");
    return;
 }
