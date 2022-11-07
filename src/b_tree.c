@@ -487,6 +487,8 @@ unsigned int b_tree_insert(void *b_tree, void *key, void *record)
          //newnode->flush = 0;
          newnode->internal = 0;
          newnode->lba = mytree->first_free_block;
+         // Update the first free node
+         mytree->first_free_block = mytree->first_free_block + 1;
 
          // Make sure that the rightmost links of the updated nodes point where they are supposed to
          newnode->lbas[(int) newnode->nkeys] = 0;
@@ -554,14 +556,12 @@ unsigned int b_tree_insert(void *b_tree, void *key, void *record)
             // need to update the btree now
             mytree->root = node_found->parent;
 
+            newnode->parent->lba = mytree->first_free_block;
             // Update the first free node
             mytree->first_free_block = mytree->first_free_block + 1;
          }
          // update the number of keys in the old node
          node_found->nkeys = (char)(midkey);
-
-         // Update the first free node
-         mytree->first_free_block = mytree->first_free_block + 1;
 
          printf("WRITING PARENT BEGIN\n");
          // Now, write the node_found->parent and newnode
