@@ -714,6 +714,9 @@ unsigned int insertion(B_Tree *mytree, Tree_Node *node_found, void *key, int rec
             // find where the midkey key belongs
             insertion(mytree, node_found->parent, node_found->keys[midkey], 1, node_found->lba, newnode->lba);
 
+            node_found->parent->children[n] = node_found;
+            node_found->parent->children[n + 1] = newnode;
+
             newnode->parent = node_found->parent;
             node_found->parent->nkeys = (char) (((int) node_found->parent->nkeys) + 1);
          }
@@ -911,11 +914,11 @@ void print_node(B_Tree *b_tree, Tree_Node *node)
    {
       for(i = 0; i < (int) (node->nkeys+1); i++)
       {
-         if(!(node->children[i]))
-         {
+         //if(!(node->children[i]))
+         //{
             node->children[i] = malloc(sizeof(Tree_Node));
             read_node(b_tree, node->children[i], node->lbas[i], node);
-         }
+         //}
          //return;
          print_node(b_tree, node->children[i]);
       }
