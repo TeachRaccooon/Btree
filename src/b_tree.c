@@ -576,6 +576,7 @@ unsigned int b_tree_insert(void *b_tree, void *key, void *record)
             indicator = 1;
          }
          printf("IMPORTANT: node_found->parent is NULL: %d\n", indicator);
+         printf("IMPORTANT: node_found->parent lba: %d\n", node_found->parent->lba);
       }
       
       // write node_found and btree
