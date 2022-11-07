@@ -918,7 +918,14 @@ unsigned int split(B_Tree *mytree, Tree_Node *node_found)
       
       newnode->nkeys = (char) (k - midkey - 1);
       //newnode->flush = 0;
-      newnode->internal = 0;
+      if(node_found -> internal)
+      {
+         newnode->internal = 1;   
+      }
+      else
+      {
+         newnode->internal = 0;
+      }
       newnode->lba = mytree->first_free_block;
       // Update the first free node
       mytree->first_free_block = mytree->first_free_block + 1;
