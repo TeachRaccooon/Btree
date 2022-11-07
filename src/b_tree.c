@@ -509,7 +509,7 @@ unsigned int b_tree_insert(void *b_tree, void *key, void *record)
             // the shift here works a bit weird
             node_found->parent->lbas[n] = node_found->lba;
             node_found->parent->lbas[n + 1] = newnode->lba;
-
+            fprintf(stderr, "Here.\n");
             //node_found->parent->children[n] = node_found;
             //node_found->parent->children[n + 1] = newnode;
 
