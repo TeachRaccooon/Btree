@@ -638,7 +638,8 @@ unsigned int insertion(B_Tree *mytree, Tree_Node *node_found, void *key)
       mytree->first_free_block = mytree->first_free_block + 1;
 
       // place the new data at i
-      printf("Inserting at key %d (maxkeys %d) with start letter %c\n", i, mytree->keys_per_block, *(char*)key);
+      printf("Inserting at key %d (maxkeys %d, nkeyd %d) with start letter %c\n", i, mytree->keys_per_block, (int)(node_found->nkeys), *(char*)key);
+      printf("Node lba %d\n", node_found->lba);
       node_found->keys[i] = key;
       node_found->lbas[i] = val_lba;
 
@@ -673,22 +674,18 @@ unsigned int insertion(B_Tree *mytree, Tree_Node *node_found, void *key)
          newnode->children[j] = malloc(sizeof(Tree_Node));
          // now, make copies
          // copying keys
-         fprintf(stderr, "Before.\n");
          int k = midkey + 1, m = 0;
          for(; k < (int) (node_found->nkeys); ++k, ++m)
          {
             memcpy(newnode->keys[m], node_found->keys[k], mytree->key_size);
-            fprintf(stderr, "Through keys.\n");
             newnode->lbas[m] = node_found->lbas[k];
             //memcpy(newnode->children[m], node_found->children[k], sizeof(Tree_Node*));
-            fprintf(stderr, "Through child.\n");
 
             // we also need to update the old node here
             node_found->keys[k] = 0;
             node_found->lbas[k] = 0;
             node_found->children[k] = NULL;
          }
-         fprintf(stderr, "Got through.\n");
          // one additional child and LBA
          newnode->lbas[m] = node_found->lbas[m];
          //memcpy(newnode->children[m], node_found->children[k], sizeof(Tree_Node*));
