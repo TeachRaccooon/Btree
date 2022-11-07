@@ -365,6 +365,8 @@ void shift_node_dat(Tree_Node *node, int i)
    // remember that there's an additional lba and child
    node->children[j+1] = node->children[j];
    node->lbas[j+1] = node->lbas[j];
+
+   printf("SHIFTING LAST LBA %d\n", node->lbas[j+1]);
    j -= 1;
 
    for(; j >= i; --j)
