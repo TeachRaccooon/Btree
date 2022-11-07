@@ -1112,6 +1112,7 @@ unsigned int b_tree_insert(void *b_tree, void *key, void *record)
 
       // write node_found and btree
       write_node(mytree, node_found);
+      printf("ROOT LBA IS %d\n", mytree->root_lba);
       write_tree(mytree);
       // write data
       jdisk_write(mytree->disk, val_lba, record);
