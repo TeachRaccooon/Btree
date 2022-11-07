@@ -962,9 +962,6 @@ unsigned int split(B_Tree *mytree, Tree_Node *node_found)
          {
             split_parent = 1;
          }
-
-
-
       }
       else
       {
@@ -1001,6 +998,7 @@ unsigned int split(B_Tree *mytree, Tree_Node *node_found)
 
          // need to update the btree now
          mytree->root = node_found->parent;
+         mytree->root_lba = node_found->parent->lba;
 
          newnode->parent->lba = mytree->first_free_block;
          // Update the first free node
