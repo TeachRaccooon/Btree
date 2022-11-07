@@ -411,10 +411,19 @@ unsigned int b_tree_insert(void *b_tree, void *key, void *record)
 
       // Search for a place in the found node to insert the key
       int i = 0;
-      while(memcmp(key, node_found->keys[i], mytree->key_size) > 0 && (int) *(node_found->keys[i]) != 0)
+      //while(memcmp(key, node_found->keys[i], mytree->key_size) > 0 && (int) *(node_found->keys[i]) != 0)
+      //{
+      //   ++i;
+      //}
+
+      for(; i < (int) (mytree->keys_per_block); ++i)
       {
-         ++i;
+         if(memcmp(key, node_found->keys[i], mytree->key_size) < 0 || (int) *(node_found->keys[i]) == 0)
+         {
+            break;
+         }
       }
+
       // shift all keys to the right by one 
       // in the same loop, shift all the lbas and children
 
@@ -501,11 +510,18 @@ unsigned int b_tree_insert(void *b_tree, void *key, void *record)
             int n = 0;
             fprintf(stderr, "Here.\n");
             fprintf(stderr, "Parent's lba %d.\n", node_found->parent->lba);
-            while(memcmp(node_found->keys[midkey], node_found->parent->keys[n], mytree->key_size) > 0 && node_found->parent->keys[n] != 0)
+            for(; n < mytree->keys_per_block; ++n)
             {
-               fprintf(stderr, "HI\n");
-               ++n;
+               if(memcmp(node_found->keys[midkey], node_found->parent->keys[n], mytree->key_size) < 0 || (int) *(node_found->parent->keys[n]) == 0)
+               {
+                  break;
+               }
             }
+            //while(memcmp(node_found->keys[midkey], node_found->parent->keys[n], mytree->key_size) > 0 && node_found->parent->keys[n] != 0)
+            //{
+            //   fprintf(stderr, "HI\n");
+            //   ++n;
+            //}
             // shift everything to the right
             shift_node_dat(node_found->parent, n);
             fprintf(stderr, "Here.\n");
