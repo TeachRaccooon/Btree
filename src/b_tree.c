@@ -498,6 +498,7 @@ unsigned int b_tree_insert(void *b_tree, void *key, void *record)
             // find where the midkey key belongs
             int n = 0;
             fprintf(stderr, "Here.\n");
+            fprintf(stderr, "Parent's lba %d.\n", node_found->parent->lba);
             while(memcmp(node_found->keys[midkey], node_found->parent->keys[n], mytree->key_size) > 0 && node_found->parent->keys[n] != 0)
             {
                ++n;
