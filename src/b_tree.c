@@ -500,7 +500,7 @@ unsigned int b_tree_insert(void *b_tree, void *key, void *record)
          mytree->first_free_block = mytree->first_free_block + 1;
 
          // Make sure that the rightmost links of the updated nodes point where they are supposed to
-         newnode->lbas[(int) newnode->nkeys] = 0;
+         //newnode->lbas[(int) newnode->nkeys] = 0;
 
          // previous node exists
          if(node_found->parent != NULL)
@@ -587,12 +587,6 @@ unsigned int b_tree_insert(void *b_tree, void *key, void *record)
 
          write_node(mytree, newnode);
 
-         int indicator = 0;
-         if(node_found->parent == NULL)
-         {
-            indicator = 1;
-         }
-         printf("IMPORTANT: node_found->parent is NULL: %d\n", indicator);
          printf("IMPORTANT: node_found->parent lba: %d\n", node_found->parent->lba);
       }
       
