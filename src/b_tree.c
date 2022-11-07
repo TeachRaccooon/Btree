@@ -366,7 +366,7 @@ void shift_node_dat(Tree_Node *node, int i)
    node->children[j+1] = node->children[j];
    node->lbas[j+1] = node->lbas[j];
 
-   printf("SHIFTING LAST LBA %d\n", node->lbas[j+1]);
+   //printf("SHIFTING LAST LBA %d\n", node->lbas[j+1]);
    j -= 1;
 
    for(; j >= i; --j)
@@ -492,7 +492,7 @@ unsigned int b_tree_insert(void *b_tree, void *key, void *record)
          }
          fprintf(stderr, "Got through.\n");
          // one additional child and LBA
-         newnode->lbas[m] = node_found->lbas[m];
+         newnode->lbas[m] = node_found->lbas[k];
          //memcpy(newnode->children[m], node_found->children[k], sizeof(Tree_Node*));
          
          newnode->nkeys = (char) (k - midkey - 1);
