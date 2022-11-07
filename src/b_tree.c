@@ -604,6 +604,31 @@ unsigned int b_tree_insert(void *b_tree, void *key, void *record)
 }
 */
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*
 unsigned int insertion(B_Tree *mytree, Tree_Node *node_found, void *key, int recursed, int lba1, int lba2)
 {
 
@@ -825,6 +850,295 @@ unsigned int b_tree_insert(void *b_tree, void *key, void *record)
    }
    return -1;
 }
+*/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+unsigned int split(B_Tree *mytree, Tree_Node *node_found)
+{
+
+
+      printf("WARNING: SPLITTING NODE\n");
+      //b_tree_print_tree(mytree);
+
+      // oh boy here we fucking go - need to split
+      
+      // grab a midpoint of keys
+      // this will be the key that we will be moving up
+      int midkey = (int)(node_found->nkeys) / 2;
+
+      // make an empty node
+      // everything from the right to it gets copied to a new node
+      Tree_Node *newnode = malloc(sizeof(Tree_Node));
+      
+      newnode->keys      = calloc((mytree->keys_per_block + 1), sizeof(char*));
+      newnode->lbas      = malloc((mytree->keys_per_block + 2) * sizeof(unsigned int));
+      newnode->children  = calloc((mytree->keys_per_block + 2), sizeof(Tree_Node*));
+      int j = 0;
+      for(; j < mytree->keys_per_block + 1; ++j)
+      {
+         newnode->keys[j] = calloc(1, mytree->key_size);
+         newnode->children[j] = malloc(sizeof(Tree_Node));
+      }
+      newnode->children[j] = malloc(sizeof(Tree_Node));
+      // now, make copies
+      // copying keys
+      int k = midkey + 1, m = 0;
+      for(; k < (int) (node_found->nkeys); ++k, ++m)
+      {
+         memcpy(newnode->keys[m], node_found->keys[k], mytree->key_size);
+         newnode->lbas[m] = node_found->lbas[k];
+         //memcpy(newnode->children[m], node_found->children[k], sizeof(Tree_Node*));
+
+         // we also need to update the old node here
+         node_found->keys[k] = 0;
+         node_found->lbas[k] = 0;
+         node_found->children[k] = NULL;
+      }
+      // one additional child and LBA
+      newnode->lbas[m] = node_found->lbas[k];
+      //memcpy(newnode->children[m], node_found->children[k], sizeof(Tree_Node*));
+      
+      newnode->nkeys = (char) (k - midkey - 1);
+      //newnode->flush = 0;
+      newnode->internal = 0;
+      newnode->lba = mytree->first_free_block;
+      // Update the first free node
+      mytree->first_free_block = mytree->first_free_block + 1;
+
+      // Make sure that the rightmost links of the updated nodes point where they are supposed to
+      //newnode->lbas[(int) newnode->nkeys] = 0;
+
+      int split_parent = 0;
+      // previous node exists
+      if(node_found->parent != NULL)
+      { 
+         printf("PREV NODE'S PARENT EXISTS\n");
+
+         printf("PREV NODE'S PARENT EXISTS\n");
+         // find where the midkey key belongs
+         int n = 0;
+         for(; n < mytree->keys_per_block; ++n)
+         {
+            if(memcmp(node_found->keys[midkey], node_found->parent->keys[n], mytree->key_size) < 0 || (int) *(node_found->parent->keys[n]) == 0)
+            {
+               break;
+            }
+         }
+
+         // shift everything to the right
+         shift_node_dat(node_found->parent, n);
+
+         // place the new data at n
+         node_found->parent->keys[n] = node_found->keys[midkey];
+         // the shift here works a bit weird
+         node_found->parent->lbas[n] = node_found->lba;
+         node_found->parent->lbas[n + 1] = newnode->lba;
+
+         node_found->parent->children[n] = node_found;
+         node_found->parent->children[n + 1] = newnode;
+
+         newnode->parent = node_found->parent;
+         node_found->parent->nkeys = (char) (((int) node_found->parent->nkeys) + 1);
+
+         if(node_found->parent->nkeys > mytree->keys_per_block)
+         {
+            split_parent = 1;
+         }
+
+
+
+      }
+      else
+      {
+         printf("WARNING: PREV NODE'S PARENT IS NULL\n");
+         //We need to create a parent node in this case
+         // this will be the new root node then, so brace urself lol
+         node_found->parent = malloc(sizeof(Tree_Node));
+      
+         node_found->parent->keys      = malloc((mytree->keys_per_block + 1) * sizeof(char*));
+         node_found->parent->lbas      = malloc((mytree->keys_per_block + 2) * sizeof(unsigned int));
+         node_found->parent->children  = malloc((mytree->keys_per_block + 2) * sizeof(Tree_Node*));
+         j = 0;
+         for(; j < mytree->keys_per_block + 1; ++j)
+         {
+            node_found->parent->keys[j] = calloc(1, mytree->key_size);
+            node_found->parent->children[j] = malloc(sizeof(Tree_Node));
+         }
+         node_found->parent->children[j] = malloc(sizeof(Tree_Node));
+
+         node_found->parent->parent = NULL;
+         node_found->parent->nkeys = 1;
+         node_found->parent->internal = 1;
+
+         // place the new data at i
+         node_found->parent->keys[0] = node_found->keys[midkey];
+         // the shift here works a bit weird
+         node_found->parent->lbas[0] = node_found->lba;
+         node_found->parent->lbas[1] = newnode->lba;
+
+         node_found->parent->children[0] = node_found;
+         node_found->parent->children[1] = newnode;
+
+         newnode->parent = node_found->parent;
+
+         // need to update the btree now
+         mytree->root = node_found->parent;
+
+         newnode->parent->lba = mytree->first_free_block;
+         // Update the first free node
+         mytree->first_free_block = mytree->first_free_block + 1;
+      }
+      // update the number of keys in the old node
+      node_found->nkeys = (char)(midkey);
+
+      printf("WRITING PARENT BEGIN\n");
+      // Now, write the node_found->parent and newnode
+      
+      write_node(mytree, node_found->parent);
+      
+      if(split_parent)
+      {
+         split(mytree, node_found->parent);
+      }
+      printf("WRITING PARENT END\n");
+
+      write_node(mytree, newnode);
+
+      printf("IMPORTANT: node_found->parent lba: %d\n", node_found->parent->lba);
+   
+   // write node_found and btree
+   //write_node(mytree, node_found);
+      write_tree(mytree);
+
+      //return val_lba;
+}
+
+unsigned int b_tree_insert(void *b_tree, void *key, void *record)
+{
+   
+   printf("\nFUNCTION: INSERT BEGIN\n");
+
+   B_Tree* mytree = (B_Tree*) b_tree;
+
+   printf("SIZE OF THE TREE: %d\n", mytree->size);
+   printf("MAXKEY: %d\n", mytree->keys_per_block);
+   printf("PRINTING TREE BEFORE INSERTING\n");
+   b_tree_print_tree(mytree);
+
+   int lba = b_tree_find(b_tree, key);
+
+   if(lba) 
+   {
+      // key found, p, place record into val
+      //printf("WARNING: ABOUT TO WRITE INTO JDISK\n");
+      jdisk_write(((B_Tree*) b_tree)->disk, lba, record);
+
+
+      //printf("PRINTING TREE AFTER INSERTING\n");
+      //b_tree_print_tree(mytree);
+
+      // Do we need to update the btree itself now?
+      return lba;
+   }
+   else
+   {
+      // We need to find an appropriate place for the record to be inserted
+      // suppose we've found the external node where this key belongs 
+      Tree_Node *node_found = mytree->tmp_e;
+
+      // Search for a place in the found node to insert the key
+      int i = 0;
+      //while(memcmp(key, node_found->keys[i], mytree->key_size) > 0 && (int) *(node_found->keys[i]) != 0)
+      //{
+      //   ++i;
+      //}
+
+      for(; i < (int) (mytree->keys_per_block); ++i)
+      {
+         if(memcmp(key, node_found->keys[i], mytree->key_size) < 0 || (int) *(node_found->keys[i]) == 0)
+         {
+            break;
+         }
+      }
+
+      // shift all keys to the right by one 
+      // in the same loop, shift all the lbas and children
+
+      shift_node_dat(node_found, i);
+
+      // lba of the val
+      unsigned long val_lba = mytree->first_free_block;
+
+      // modify the tree
+      mytree->first_free_block = mytree->first_free_block + 1;
+
+      // place the new data at i
+      printf("Inserting at key %d (maxkeys %d) with start letter %c\n", i, mytree->keys_per_block, *(char*)key);
+      node_found->keys[i] = key;
+      node_found->lbas[i] = val_lba;
+      node_found->children[i] = record;
+
+      node_found->nkeys = (unsigned char) ((int) (node_found ->nkeys) + 1);
+      printf("CURRENT NUMBER OF KEYS %d\n", node_found->nkeys);
+
+      // check if we've exceeded maxkey
+      if((int)(node_found->nkeys) > mytree->keys_per_block)
+      {
+         split(mytree, node_found);
+      }
+
+      // write node_found and btree
+      write_node(mytree, node_found);
+      write_tree(mytree);
+      // write data
+      jdisk_write(mytree->disk, val_lba, record);
+
+      printf("PRINTING TREE AFTER INSERTING\n");
+      b_tree_print_tree(mytree);
+
+      printf("FUNCTION: INSERT END\n\n");
+      printf("/------------------------------INSERTING AT %d\n", val_lba);
+      return val_lba;
+   }
+   return -1;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 // Just use the convenient btree struct 
