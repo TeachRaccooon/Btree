@@ -813,7 +813,7 @@ unsigned int b_tree_insert(void *b_tree, void *key, void *record)
       jdisk_write(mytree->disk, val_lba, record);
 
       printf("PRINTING TREE AFTER INSERTING\n");
-      b_tree_print_tree(mytree);
+      //b_tree_print_tree(mytree);
 
       printf("FUNCTION: INSERT END\n\n");
       printf("/------------------------------INSERTING AT %d\n", val_lba);
