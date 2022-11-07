@@ -463,18 +463,22 @@ unsigned int b_tree_insert(void *b_tree, void *key, void *record)
          newnode->children[j] = malloc(sizeof(Tree_Node));
          // now, make copies
          // copying keys
+         fprintf(stderr, "Before.\n");
          int k = midkey + 1, m = 0;
          for(; k < (int) (node_found->nkeys); ++k, ++m)
          {
             memcpy(newnode->keys[m], node_found->keys[k], mytree->key_size);
+            fprintf(stderr, "Through keys.\n");
             newnode->lbas[m] = node_found->lbas[k];
             //memcpy(newnode->children[m], node_found->children[k], sizeof(Tree_Node*));
+            fprintf(stderr, "Through child.\n");
 
             // we also need to update the old node here
             node_found->keys[k] = 0;
             node_found->lbas[k] = 0;
             node_found->children[k] = NULL;
          }
+         fprintf(stderr, "Got through.\n");
          // one additional child and LBA
          newnode->lbas[m] = node_found->lbas[m];
          //memcpy(newnode->children[m], node_found->children[k], sizeof(Tree_Node*));
@@ -495,17 +499,21 @@ unsigned int b_tree_insert(void *b_tree, void *key, void *record)
             printf("PREV NODE'S PARENT EXISTS\n");
             // find where the midkey key belongs
             int n = 0;
+            fprintf(stderr, "Here.\n");
+            fprintf(stderr, "Parent's lba %d.\n", node_found->parent->lba);
             while(memcmp(node_found->keys[midkey], node_found->parent->keys[n], mytree->key_size) > 0 && node_found->parent->keys[n] != 0)
             {
                ++n;
             }
             // shift everything to the right
             shift_node_dat(node_found->parent, n);
+            fprintf(stderr, "Here.\n");
             // place the new data at n
             node_found->parent->keys[n] = node_found->keys[midkey];
             // the shift here works a bit weird
             node_found->parent->lbas[n] = node_found->lba;
             node_found->parent->lbas[n + 1] = newnode->lba;
+            fprintf(stderr, "Here.\n");
             //node_found->parent->children[n] = node_found;
             //node_found->parent->children[n + 1] = newnode;
 
