@@ -1034,6 +1034,7 @@ unsigned int split(B_Tree *mytree, Tree_Node *node_found)
    // write node_found and btree
    //write_node(mytree, node_found);
    //mytree->root_lba = node_found->parent->lba;
+   printf("/-----------------------------------------FINAL ROOT UPDATE %d\n", mytree->root_lba);
       write_tree(mytree);
 
       //return val_lba;
