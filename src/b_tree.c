@@ -608,7 +608,7 @@ unsigned int b_tree_insert(void *b_tree, void *key, void *record)
 }
 */
 
-unsigned int insertion(B_Tree *mytree, Tree_Node *node_found, void *key)
+unsigned int insertion(B_Tree *mytree, Tree_Node *node_found, void *key, int recursed)
 {
 
       // Search for a place in the found node to insert the key
@@ -631,17 +631,21 @@ unsigned int insertion(B_Tree *mytree, Tree_Node *node_found, void *key)
 
       shift_node_dat(node_found, i);
 
-      // lba of the val
-      unsigned long val_lba = mytree->first_free_block;
-
-      // modify the tree
-      mytree->first_free_block = mytree->first_free_block + 1;
-
       // place the new data at i
       printf("Inserting at key %d (maxkeys %d, nkeyd %d) with start letter %c\n", i, mytree->keys_per_block, (int)(node_found->nkeys), *(char*)key);
       printf("Node lba %d\n", node_found->lba);
       node_found->keys[i] = key;
-      node_found->lbas[i] = val_lba;
+
+      // Otherwise, this lba is already there
+      unsigned long val_lba;
+      if(!recursed)
+      {
+         // lba of the val
+         val_lba = mytree->first_free_block;
+         // modify the tree
+         mytree->first_free_block = mytree->first_free_block + 1;
+         node_found->lbas[i] = val_lba;
+      }
 
       node_found->nkeys = (unsigned char) ((int) (node_found ->nkeys) + 1);
       printf("CURRENT NUMBER OF KEYS %d\n", node_found->nkeys);
@@ -705,7 +709,7 @@ unsigned int insertion(B_Tree *mytree, Tree_Node *node_found, void *key)
          {
             printf("PREV NODE'S PARENT EXISTS\n");
             // find where the midkey key belongs
-            insertion(mytree, node_found->parent, node_found->keys[midkey]);
+            insertion(mytree, node_found->parent, node_found->keys[midkey], 1);
 
             newnode->parent = node_found->parent;
             node_found->parent->nkeys = (char) (((int) node_found->parent->nkeys) + 1);
