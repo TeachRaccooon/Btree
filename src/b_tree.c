@@ -756,13 +756,15 @@ unsigned int insertion(B_Tree *mytree, Tree_Node *node_found, void *key, int rec
             newnode->parent->lba = mytree->first_free_block;
             // Update the first free node
             mytree->first_free_block = mytree->first_free_block + 1;
+         
+            write_node(mytree, node_found->parent);
          }
          // update the number of keys in the old node
          node_found->nkeys = (char)(midkey);
 
          printf("WRITING PARENT BEGIN\n");
          // Now, write the node_found->parent and newnode
-         write_node(mytree, node_found->parent);
+         //write_node(mytree, node_found->parent);
          printf("WRITING PARENT END\n");
 
          write_node(mytree, newnode);
