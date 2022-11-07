@@ -375,7 +375,7 @@ void shift_node_dat(Tree_Node *node, int i)
    }
 }
 
-/*
+
 unsigned int b_tree_insert(void *b_tree, void *key, void *record)
 {
    
@@ -600,8 +600,8 @@ unsigned int b_tree_insert(void *b_tree, void *key, void *record)
    }
    return -1;
 }
-*/
 
+/*
 unsigned int insertion(B_Tree *mytree, Tree_Node *node_found, void *key, int recursed, int lba1, int lba2)
 {
 
@@ -822,6 +822,7 @@ unsigned int b_tree_insert(void *b_tree, void *key, void *record)
    }
    return -1;
 }
+*/
 
 // Just use the convenient btree struct 
 void *b_tree_disk(void *b_tree) 
