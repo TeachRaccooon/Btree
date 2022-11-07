@@ -715,7 +715,7 @@ unsigned int insertion(B_Tree *mytree, Tree_Node *node_found, void *key, int rec
             insertion(mytree, node_found->parent, node_found->keys[midkey], 1, node_found->lba, newnode->lba);
 
             newnode->parent = node_found->parent;
-            node_found->parent->nkeys = (char) (((int) node_found->parent->nkeys) + 1);
+            //node_found->parent->nkeys = (char) (((int) node_found->parent->nkeys) + 1);
          }
          else
          {
