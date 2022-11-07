@@ -1055,7 +1055,7 @@ unsigned int b_tree_insert(void *b_tree, void *key, void *record)
       // key found, p, place record into val
       //printf("WARNING: ABOUT TO WRITE INTO JDISK\n");
       jdisk_write(((B_Tree*) b_tree)->disk, lba, record);
-
+      write_tree(mytree);
 
       //printf("PRINTING TREE AFTER INSERTING\n");
       //b_tree_print_tree(mytree);
