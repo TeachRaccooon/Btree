@@ -709,7 +709,7 @@ unsigned int insertion(B_Tree *mytree, Tree_Node *node_found, void *key, int rec
 
          // previous node exists
          if(node_found->parent != NULL)
-         {
+         { 
             printf("PREV NODE'S PARENT EXISTS\n");
             // find where the midkey key belongs
             insertion(mytree, node_found->parent, node_found->keys[midkey], 1, node_found->lba, newnode->lba);
