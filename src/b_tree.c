@@ -657,7 +657,7 @@ unsigned int insertion(B_Tree *mytree, Tree_Node *node_found, void *key, int rec
       if((int)(node_found->nkeys) > mytree->keys_per_block)
       {
          printf("WARNING: SPLITTING NODE\n");
-         b_tree_print_tree(mytree);
+         //b_tree_print_tree(mytree);
 
          // oh boy here we fucking go - need to split
          
@@ -715,7 +715,7 @@ unsigned int insertion(B_Tree *mytree, Tree_Node *node_found, void *key, int rec
             insertion(mytree, node_found->parent, node_found->keys[midkey], 1, node_found->lba, newnode->lba);
 
             newnode->parent = node_found->parent;
-            node_found->parent->nkeys = (char) (((int) node_found->parent->nkeys) + 1);
+            //node_found->parent->nkeys = (char) (((int) node_found->parent->nkeys) + 1);
          }
          else
          {
@@ -756,13 +756,14 @@ unsigned int insertion(B_Tree *mytree, Tree_Node *node_found, void *key, int rec
             newnode->parent->lba = mytree->first_free_block;
             // Update the first free node
             mytree->first_free_block = mytree->first_free_block + 1;
+         
+            write_node(mytree, node_found->parent);
          }
          // update the number of keys in the old node
          node_found->nkeys = (char)(midkey);
 
          printf("WRITING PARENT BEGIN\n");
          // Now, write the node_found->parent and newnode
-         write_node(mytree, node_found->parent);
          printf("WRITING PARENT END\n");
 
          write_node(mytree, newnode);
