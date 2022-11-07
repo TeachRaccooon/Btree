@@ -52,7 +52,7 @@ void shift_node_dat(Tree_Node *node, int i);
 
 unsigned int get_node_level(Tree_Node *node);
 void print_node(B_Tree *tree, Tree_Node *node);
-void b_tree_print_tree(B_Tree *tree);
+
 
 
 
@@ -1104,7 +1104,7 @@ unsigned int b_tree_insert(void *b_tree, void *key, void *record)
    printf("SIZE OF THE TREE: %d\n", mytree->size);
    printf("MAXKEY: %d\n", mytree->keys_per_block);
    printf("PRINTING TREE BEFORE INSERTING\n");
-   b_tree_print_tree(mytree);
+   b_tree_print_tree((void*)mytree);
 
    int lba = b_tree_find(b_tree, key);
 
@@ -1178,7 +1178,7 @@ unsigned int b_tree_insert(void *b_tree, void *key, void *record)
       printf("ROOT LBA IS %d\n", mytree->root_lba);
 
       printf("PRINTING TREE AFTER INSERTING\n");
-      b_tree_print_tree(mytree);
+      b_tree_print_tree((void*)mytree);
 
       printf("FUNCTION: INSERT END\n\n");
       printf("/------------------------------INSERTING AT %d\n", val_lba);
@@ -1304,8 +1304,9 @@ void print_node(B_Tree *b_tree, Tree_Node *node)
    return;
 }
 
-void b_tree_print_tree(B_Tree *tree)
+void b_tree_print_tree(void *tree)
 {
+   B_Tree* tree = (B_Tree *) tree;
    printf("/-------------------------PRINT BEGIN--------------------/\n");
    printf("b_tree information\n");
    printf("key size: %u\n", tree->key_size);
