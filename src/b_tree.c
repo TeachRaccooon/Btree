@@ -569,6 +569,13 @@ unsigned int b_tree_insert(void *b_tree, void *key, void *record)
          printf("WRITING PARENT END\n");
 
          write_node(mytree, newnode);
+
+         int indicator = 0;
+         if(node_found->parent == NULL)
+         {
+            indicator = 1;
+         }
+         printf("IMPORTANT: node_found->parent is NULL: %d\n", indicator);
       }
       
       // write node_found and btree
