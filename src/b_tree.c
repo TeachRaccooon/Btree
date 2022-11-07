@@ -470,7 +470,7 @@ unsigned int b_tree_insert(void *b_tree, void *key, void *record)
             memcpy(newnode->keys[m], node_found->keys[k], mytree->key_size);
             fprintf(stderr, "Through keys.\n");
             newnode->lbas[m] = node_found->lbas[k];
-            memcpy(newnode->children[m], node_found->children[k], sizeof(Tree_Node*));
+            //memcpy(newnode->children[m], node_found->children[k], sizeof(Tree_Node*));
             fprintf(stderr, "Through child.\n");
 
             // we also need to update the old node here
@@ -481,7 +481,7 @@ unsigned int b_tree_insert(void *b_tree, void *key, void *record)
          fprintf(stderr, "Got through.\n");
          // one additional child and LBA
          newnode->lbas[m] = node_found->lbas[m];
-         memcpy(newnode->children[m], node_found->children[k], sizeof(Tree_Node*));
+         //memcpy(newnode->children[m], node_found->children[k], sizeof(Tree_Node*));
          
          newnode->nkeys = (char) (k - midkey - 1);
          //newnode->flush = 0;
