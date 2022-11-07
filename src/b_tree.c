@@ -497,13 +497,14 @@ unsigned int b_tree_insert(void *b_tree, void *key, void *record)
             printf("PREV NODE'S PARENT EXISTS\n");
             // find where the midkey key belongs
             int n = 0;
+            fprintf(stderr, "Here.\n");
             while(memcmp(node_found->keys[midkey], node_found->parent->keys[n], mytree->key_size) > 0 && node_found->parent->keys[n] != 0)
             {
                ++n;
             }
             // shift everything to the right
             shift_node_dat(node_found->parent, n);
-
+            fprintf(stderr, "Here.\n");
             // place the new data at n
             node_found->parent->keys[n] = node_found->keys[midkey];
             // the shift here works a bit weird
