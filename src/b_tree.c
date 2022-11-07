@@ -526,8 +526,8 @@ unsigned int b_tree_insert(void *b_tree, void *key, void *record)
             node_found->parent->lbas[n] = node_found->lba;
             node_found->parent->lbas[n + 1] = newnode->lba;
 
-            //node_found->parent->children[n] = node_found;
-            //node_found->parent->children[n + 1] = newnode;
+            node_found->parent->children[n] = node_found;
+            node_found->parent->children[n + 1] = newnode;
 
             newnode->parent = node_found->parent;
             node_found->parent->nkeys = (char) (((int) node_found->parent->nkeys) + 1);
