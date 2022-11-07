@@ -518,9 +518,9 @@ unsigned int split(B_Tree *mytree, Tree_Node *node_found)
          //printf("PREV NODE'S PARENT EXISTS\n");
          // find where the midkey key belongs
          int n = 0;
-         for(; n < mytree->keys_per_block; ++n)
+         for(; n < (int) (node_found->parent->nkeys); ++n)
          {
-            if(memcmp(node_found->keys[midkey], node_found->parent->keys[n], mytree->key_size) < 0 || (int) *(node_found->parent->keys[n]) == 0)
+            if(memcmp(node_found->keys[midkey], node_found->parent->keys[n], mytree->key_size) < 0)
             {
                break;
             }
