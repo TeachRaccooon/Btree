@@ -767,11 +767,6 @@ unsigned int insertion(B_Tree *mytree, Tree_Node *node_found, void *key)
       write_node(mytree, node_found);
       write_tree(mytree);
 
-      printf("PRINTING TREE AFTER INSERTING\n");
-      b_tree_print_tree(mytree);
-
-      printf("FUNCTION: INSERT END\n\n");
-      printf("/------------------------------INSERTING AT %d\n", val_lba);
       return val_lba;
 }
 
