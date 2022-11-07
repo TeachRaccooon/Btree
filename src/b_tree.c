@@ -1015,7 +1015,9 @@ unsigned int split(B_Tree *mytree, Tree_Node *node_found)
 
       printf("WRITING PARENT BEGIN\n");
       // Now, write the node_found->parent and newnode
-      
+
+     mytree->root_lba = node_found->parent->lba;
+
       if(split_parent)
       {
          split(mytree, node_found->parent);
@@ -1030,7 +1032,7 @@ unsigned int split(B_Tree *mytree, Tree_Node *node_found)
    
    // write node_found and btree
    //write_node(mytree, node_found);
-   mytree->root_lba = node_found->parent->lba;
+   //mytree->root_lba = node_found->parent->lba;
       write_tree(mytree);
 
       //return val_lba;
