@@ -714,9 +714,6 @@ unsigned int insertion(B_Tree *mytree, Tree_Node *node_found, void *key, int rec
             // find where the midkey key belongs
             insertion(mytree, node_found->parent, node_found->keys[midkey], 1, node_found->lba, newnode->lba);
 
-            node_found->parent->children[n] = node_found;
-            node_found->parent->children[n + 1] = newnode;
-
             newnode->parent = node_found->parent;
             node_found->parent->nkeys = (char) (((int) node_found->parent->nkeys) + 1);
          }
