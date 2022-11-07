@@ -518,9 +518,9 @@ unsigned int split(B_Tree *mytree, Tree_Node *node_found)
          //printf("PREV NODE'S PARENT EXISTS\n");
          // find where the midkey key belongs
          int n = 0;
-         for(; n < (int) (node_found->parent->nkeys) + 1; ++n)
+         for(; n < mytree->keys_per_block; ++n)
          {
-            if(memcmp(node_found->keys[midkey], node_found->parent->keys[n], mytree->key_size) < 0)
+            if(memcmp(node_found->keys[midkey], node_found->parent->keys[n], mytree->key_size) < 0 || (int) *(node_found->parent->keys[n]) == 0)
             {
                break;
             }
@@ -659,7 +659,7 @@ unsigned int b_tree_insert(void *b_tree, void *key, void *record)
       //   ++i;
       //}
 
-      for(; i < (int) (node_found->nkeys) + 1; ++i)
+      for(; i < (int) (node_found->nkeys); ++i)
       {
          if(memcmp(key, node_found->keys[i], mytree->key_size) < 0)
          {
