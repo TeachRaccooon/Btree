@@ -654,7 +654,7 @@ unsigned int insertion(B_Tree *mytree, Tree_Node *node_found, void *key, int rec
       if((int)(node_found->nkeys) > mytree->keys_per_block)
       {
          printf("WARNING: SPLITTING NODE\n");
-         b_tree_print_tree(mytree);
+         //b_tree_print_tree(mytree);
 
          // oh boy here we fucking go - need to split
          
@@ -784,7 +784,7 @@ unsigned int b_tree_insert(void *b_tree, void *key, void *record)
    printf("SIZE OF THE TREE: %d\n", mytree->size);
    printf("MAXKEY: %d\n", mytree->keys_per_block);
    printf("PRINTING TREE BEFORE INSERTING\n");
-   b_tree_print_tree(mytree);
+   //b_tree_print_tree(mytree);
 
    int lba = b_tree_find(b_tree, key);
 
