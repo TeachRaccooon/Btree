@@ -703,7 +703,7 @@ unsigned int b_tree_insert(void *b_tree, void *key, void *record)
       //printf("ROOT LBA IS %d\n", mytree->root_lba);
 
       //printf("PRINTING TREE AFTER INSERTING\n");
-      //b_tree_print_tree((void*)mytree);
+      b_tree_print_tree((void*)mytree);
 
       //printf("FUNCTION: INSERT END\n\n");
       //printf("/------------------------------INSERTING AT %d\n", val_lba);
