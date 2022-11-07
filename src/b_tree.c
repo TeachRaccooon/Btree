@@ -644,6 +644,7 @@ unsigned int insertion(B_Tree *mytree, Tree_Node *node_found, void *key, int rec
       {
          node_found->lbas[i] = lba1;
          node_found->lbas[i + 1] = lba2;
+         return 0;
       }
 
       node_found->nkeys = (unsigned char) ((int) (node_found ->nkeys) + 1);
